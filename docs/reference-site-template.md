@@ -4,78 +4,92 @@
 
 - Site ID:
 - 원본 URL:
-- 조사 날짜:
+- 조사일:
 - Desktop viewport:
 - Mobile viewport:
-- 사용 권한 상태:
+- Document height:
+- 캡처 간격:
+- 캡처 프레임 수:
 
 ## 1. 한 줄 정의
 
-이 사이트의 시각적·인터랙션 핵심을 한 문장으로 작성한다.
+사이트의 핵심 시각 전략과 스크롤 경험을 한 문장으로 작성한다.
 
-## 2. 섹션 맵
+## 2. 전체 섹션 맵
 
-| 순서 | 섹션 | 높이 | Position | Theme | Canvas |
-|---|---|---:|---|---|---|
-| 1 | Hero |  |  |  |  |
+| 순서 | 섹션 | top | height | theme | layout | pin/sticky | Canvas/Video |
+|---:|---|---:|---:|---|---|---|---|
+| 1 | Hero | 0 |  | Dark | centered | sticky | Canvas 0 |
 
-## 3. Canvas 구조
+## 3. 레이어와 stacking context
 
-- 구조 유형: Global / Section / Hybrid
+| 요소 | 부모/containing block | position | bounds | z-index | context 원인 | overflow/mask |
+|---|---|---|---|---:|---|---|
+|  |  |  |  |  |  |  |
+
+## 4. 섹션 overlap과 handoff
+
+| from | to | scroll range | overlap 방식 | visible layers | 종료 상태 |
+|---|---|---|---|---|---|
+|  |  |  |  |  |  |
+
+## 5. 프레임 타임라인
+
+| frame | global scroll | section progress | scene | visible copy | layout 변화 | Canvas 변화 |
+|---:|---:|---:|---|---|---|---|
+| 0 | 0 | 0 | Opening |  |  |  |
+
+## 6. Canvas / WebGL 구조
+
+- 유형: Global / Section / Hybrid
 - Canvas 개수:
 - DOM 위치:
-- Z-index:
-- 배경 처리:
-- 렌더 활성 구간:
+- 활성 범위:
+- pixel ratio:
+- offscreen pause:
 
-## 4. 장면 목록
+| scene/group | objects | asset/procedural | camera | transform | active range | DOM overlay |
+|---|---|---|---|---|---|---|
+|  |  |  |  |  |  |  |
 
-| Scene/Group | 구간 | 모델 | 인스턴스 | 카메라 | 설명 |
-|---|---|---|---:|---|---|
-|  |  |  |  |  |  |
+## 7. Asset manifest
 
-## 5. 자산 목록
+| asset | URL | type | size | compression | usage | license |
+|---|---|---|---:|---|---|---|
+|  |  |  |  |  |  |  |
 
-| 자산 | URL | 형식 | 크기 | 압축 | 권리 상태 |
-|---|---|---|---:|---|---|
-|  |  |  |  |  |  |
-
-## 6. Material / Lighting
+## 8. Material / Lighting / Post-processing
 
 - Material:
 - Environment:
-- Normal map:
 - Lights:
 - Tone mapping:
 - Exposure:
-
-## 7. Post-processing
-
 - Bloom:
 - SSAO:
 - DOF:
-- Motion blur:
 - Noise:
 - Vignette:
 - Color correction:
 
-## 8. Scroll Timeline
+## 9. Scroll mechanics
 
-| 구간 | 시작 | 종료 | Position | Rotation | Scale | Visibility |
-|---|---:|---:|---|---|---|---|
-|  |  |  |  |  |  |  |
+- progress 기준:
+- pin distance:
+- smoothing/lerp:
+- velocity response:
+- horizontal rail distance:
+- active index boundaries:
+- entry handoff:
+- exit handoff:
 
-## 9. Pointer / Touch / Keyboard
+## 10. Pointer / Touch / Keyboard
 
-- Pointer move:
-- Drag:
-- Hover:
-- Touch:
-- Keyboard:
-- Easing:
-- Maximum rotation:
+| input | target | response | range | easing | accessibility fallback |
+|---|---|---|---|---|---|
+| Pointer |  |  |  |  |  |
 
-## 10. Responsive 차이
+## 11. Responsive 차이
 
 ### Desktop
 
@@ -83,23 +97,43 @@
 
 ### Mobile
 
-## 11. NEXT 증권 콘텐츠 매핑
+- DOM 교체:
+- Canvas 교체/비활성화:
+- section height:
+- typography:
+- touch behavior:
 
-| 원본 섹션 역할 | NEXT 증권 역할 | 적용 카피 |
-|---|---|---|
-|  |  |  |
+## 12. NEXT증권 콘텐츠 매핑
 
-## 12. 검증 체크리스트
+| 원본 섹션 역할 | NEXT 역할 | 적용 카피 | 유지할 인터랙션 |
+|---|---|---|---|
+|  |  |  |  |
 
-- [ ] 원본 전체 스크롤 확인
-- [ ] Desktop 캡처
-- [ ] Mobile 캡처
-- [ ] Canvas 구조 확인
-- [ ] 모델 및 텍스처 확인
-- [ ] 스크롤 키프레임 확인
-- [ ] 후처리 확인
-- [ ] 사용 권한 기록
-- [ ] 구현 스크린샷 비교
-- [ ] 콘솔 오류 없음
+## 13. 현재 구현과의 차이
+
+- [ ] 섹션 높이
+- [ ] grid/layout bounds
+- [ ] sticky/fixed 구조
+- [ ] z-index/stacking context
+- [ ] overlap/handoff
+- [ ] Canvas scene
+- [ ] scroll timing
+- [ ] mask/clip
+- [ ] slider/accordion
+- [ ] pointer/hover
+- [ ] mobile
+
+## 14. 검증 체크리스트
+
+- [ ] 전체 페이지 1% 프레임 캡처
+- [ ] 모든 섹션 bounds 기록
+- [ ] sticky/fixed/absolute 목록 작성
+- [ ] stacking context 기록
+- [ ] overlap/handoff 기록
+- [ ] Canvas/asset manifest 작성
+- [ ] 데스크톱 원본/로컬 비교
+- [ ] 모바일 원본/로컬 비교
+- [ ] hover/click/drag/keyboard 검증
+- [ ] 콘솔 및 네트워크 오류 없음
 - [ ] 프로덕션 빌드 통과
 

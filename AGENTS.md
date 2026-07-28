@@ -1,76 +1,78 @@
-# Reference Site Clone Rules
+# Reference Landing Clone Rules
 
-이 저장소에서 레퍼런스 웹사이트를 구현하는 모든 에이전트는 다음 규칙을 따른다.
+이 저장소에서 레퍼런스 랜딩 페이지를 구현하는 모든 에이전트는 아래 절차를 따른다.
 
-## 목표
+## 핵심 원칙
 
-- 레퍼런스의 분위기를 임의로 재해석하지 않는다.
-- 레이아웃뿐 아니라 Canvas/WebGL 장면, 3D 모델, 재질, 조명, 후처리, 스크롤 타임라인, 포인터 반응과 모바일 동작까지 조사한다.
-- 조사 결과를 근거로 섹션 단위로 동일한 시각적 경험을 재현한다.
-- 콘텐츠는 NEXT 증권 기획 문서를 기준으로 교체하되, 시각 구조와 인터랙션의 동작 원리는 레퍼런스에 맞춘다.
+- 복제 대상은 히어로 하나가 아니라 페이지 전체의 레이아웃과 스크롤 경험이다.
+- 구현 전에 원본 전체 페이지를 직접 스크롤하며 조사한다.
+- DOM의 정상 흐름, sticky, fixed, absolute, z-index, mask, clip, transform을 구분한다.
+- Canvas/WebGL 장면이 섹션마다 별도인지, 전역 Canvas에서 그룹만 교체하는지 확인한다.
+- 원본의 섹션 경계와 스크롤 타이밍을 조사하지 않은 상태에서 코드를 작성하지 않는다.
+- 시각 구조와 인터랙션은 원본에 맞추고 문구만 NEXT증권 콘텐츠로 치환한다.
+- 빌드 성공이나 HTTP 200은 시각적 완료의 증거가 아니다.
 
-## 구현 전에 반드시 조사할 것
+## 구현 전 필수 조사
 
-1. 데스크톱과 모바일 전체 페이지를 직접 확인한다.
-2. 초기 진입, 스크롤, Hover, Drag, Click, 메뉴와 모달 상태를 기록한다.
-3. DOM 구조와 섹션 순서를 정리한다.
-4. CSS의 색상, 폰트, 간격, 브레이크포인트와 고정/Sticky 구조를 추출한다.
-5. 네트워크 리소스에서 다음 항목을 조사한다.
-   - GLB/GLTF/DRACO 모델
-   - 텍스처, 환경맵, 노멀맵
-   - 이미지, 비디오, SVG
-   - Canvas/WebGL 런타임
-   - 장면 상태 JSON과 애니메이션 데이터
-   - 셰이더, 파티클 및 후처리 설정
-6. 각 자산의 출처와 사용 권한을 기록한다.
-7. 레퍼런스 조사 결과를 `docs/references/<site-id>.md`에 먼저 작성한다.
+1. 데스크톱 전체 문서 높이와 모든 주요 섹션의 시작점·높이를 측정한다.
+2. 전체 문서를 최소 1% 또는 50~100px 간격으로 캡처한다.
+3. 변화가 많은 pinned 구간은 더 작은 간격으로 재캡처한다.
+4. 각 프레임에서 가시 텍스트, 이미지, 영상, Canvas, SVG, sticky 요소의 좌표와 크기를 기록한다.
+5. 각 섹션의 `position`, containing block, overflow, z-index stacking context를 기록한다.
+6. 섹션 사이의 음수 margin, transform overlap, absolute overlap 여부를 기록한다.
+7. 마우스 이동, hover, drag, click, 메뉴, 모달, 아코디언, 슬라이더를 별도로 테스트한다.
+8. 모바일에서 동일한 장면이 축소되는지, 다른 DOM·Canvas·영상으로 교체되는지 확인한다.
+9. 네트워크에서 GLB/GLTF, texture, video, SVG, shader, scene JSON을 조사한다.
+10. 조사 결과를 `docs/references/<site-id>.md`에 먼저 작성한다.
 
-## Canvas/WebGL 규칙
+## 레이아웃 조사 규칙
 
-- Canvas가 하나인지 섹션별로 여러 개인지 DOM과 런타임을 통해 확인한다.
-- 장면 내부에 여러 그룹이 교대하는 구조를 서로 다른 Canvas로 추측하지 않는다.
-- 반대로 독립 Canvas를 하나의 전역 장면으로 합치지 않는다.
-- 모델 파일 개수와 장면 인스턴스 개수를 구분한다.
-- 원본 모델, 카메라 FOV, 그룹 Transform, 재질과 키프레임을 확보한 경우 임의의 도형으로 대체하지 않는다.
-- 스크롤 타임라인은 문서 전체 비율에 무조건 연결하지 않는다. 원본의 섹션 경계, Pin 구간과 키프레임을 대응시킨다.
-- 포인터 입력은 Pitch/Yaw 제한, 감속 계수와 반응 구간까지 기록한다.
-- Bloom, SSAO, DOF, Noise, Vignette, Tone Mapping 등 후처리 유무와 순서를 확인한다.
-- Canvas 출력은 실제 브라우저에서 시각 검증하기 전 완료로 표시하지 않는다.
+각 주요 요소에 아래 값을 기록한다.
 
-## 성능 규칙
+- 부모 섹션과 실제 containing block
+- `position`: static / relative / sticky / fixed / absolute
+- top / right / bottom / left
+- width / height / min-height
+- margin / padding / gap
+- transform과 transform-origin
+- overflow / clip-path / mask
+- z-index와 새 stacking context 생성 원인
+- blend mode, backdrop filter, opacity
+- 진입 전·활성·이탈 후 상태
 
-- Canvas는 필요한 섹션에서만 렌더링한다.
-- 뷰포트 밖 장면은 렌더 루프를 일시정지한다.
-- Geometry, Material과 Texture를 가능한 범위에서 공유한다.
-- 반복 모델은 Instancing 또는 Clone 전략을 검토한다.
-- 기기 성능에 따라 Pixel Ratio와 파티클 수를 제한한다.
-- 스크롤 및 포인터 값은 시간 기반 보간을 사용한다.
-- `prefers-reduced-motion` 대체 동작을 제공한다.
-- 로딩 중에도 핵심 HTML 카피와 CTA는 표시되어야 한다.
+DOM 순서와 화면의 시각적 순서를 혼동하지 않는다. absolute 요소가 다음 섹션 위에 겹치거나 sticky 요소가 여러 섹션을 관통하면 그 범위를 픽셀 단위로 기록한다.
 
-## 금지 사항
+## 스크롤 시스템 조사 규칙
 
-- 원본을 보지 않고 비슷한 분위기의 자체 Hero를 먼저 만들지 않는다.
-- 원본에 없는 3D 오브젝트나 색상 효과를 임의로 추가하지 않는다.
-- 한 섹션에서 확인한 모델을 다른 모든 섹션에 반복하지 않는다.
-- 빌드 성공만으로 시각적 복제가 완료됐다고 판단하지 않는다.
-- 검증하지 않은 금융 수치나 법적 준수 표현을 확정 카피로 사용하지 않는다.
-- 사용 권한을 확인하지 않은 상용 모델과 브랜드 자산을 배포본에 포함하지 않는다.
+- 페이지 전체 진행률만 사용하지 않는다.
+- 각 섹션에 대해 `localProgress = (scrollY - sectionStart) / pinDistance`를 측정한다.
+- pinned 구간의 실제 scroll distance와 sticky viewport 높이를 따로 기록한다.
+- scene별 시작·유지·종료 구간을 구분한다.
+- opacity만 바뀌는지, display/visibility가 교체되는지 확인한다.
+- scrub smoothing, lerp, easing과 scroll velocity 반응을 확인한다.
+- 수평 레일은 translate 거리, 카드 폭, gap, 앞뒤 카드 노출량을 측정한다.
+- 섹션 종료 시 일반 문서 흐름으로 넘어가는 handoff 프레임을 반드시 확인한다.
+
+## Canvas / WebGL 조사 규칙
+
+- Canvas 개수와 DOM 위치를 확인한다.
+- Global / Section / Hybrid 구조를 추측하지 말고 실제 DOM과 네트워크로 판별한다.
+- 동일 모델의 반복인지 서로 다른 scene group인지 구분한다.
+- 모델, 파티클, 라인, 스프라이트, 텍스트가 어느 레이어에서 그려지는지 기록한다.
+- 카메라 FOV, pitch/yaw, scale, center offset, clipping을 프레임별로 비교한다.
+- bloom, DOF, SSAO, noise, vignette, tone mapping 순서를 기록한다.
+- pointer 반응 범위, 감쇠 시간, 최대 회전량을 측정한다.
+- 원본에 없는 3D 모델이나 임의 효과를 추가하지 않는다.
+- Canvas 출력은 원본과 동일한 스크롤 지점의 스크린샷으로 검증한다.
 
 ## 완료 기준
 
-- 데스크톱 기준 주요 화면 폭에서 레퍼런스와 비교한다.
-- 모바일 기준 주요 화면 폭에서 별도로 비교한다.
-- 최소 5개 스크롤 위치에서 스크린샷을 비교한다.
-- 각 Canvas 구간의 시작, 중간, 종료 프레임을 비교한다.
-- Hover, Drag, Click과 메뉴 동작을 확인한다.
-- 콘솔 오류, 모델 로딩 오류와 네트워크 실패가 없어야 한다.
-- 프로덕션 빌드와 접근성의 기본 검사를 통과해야 한다.
-
-## 콘텐츠 기준
-
-- NEXT 증권 콘텐츠의 기준 문서는 `docs/next-securities-content-plan.md`이다.
-- 시각 구조를 복제한 후 레퍼런스의 원문은 NEXT 증권 메시지로 교체한다.
-- B2B 메시지는 Media-First, AI-Native, Compliance-by-Design, Headless Architecture를 중심으로 한다.
-- 검증이 필요한 수치는 콘텐츠 기획 문서의 주장 레지스트리를 따른다.
+- 데스크톱 전체 랜딩을 시작부터 footer까지 비교한다.
+- 모든 pinned/sticky 구간을 시작·중간·종료 프레임으로 비교한다.
+- 섹션마다 최소 3프레임, 변화가 많은 구간은 1% 간격으로 비교한다.
+- z-index, overlap, mask, sticky handoff가 원본과 동일하게 동작한다.
+- hover, drag, click, slider, accordion, menu 동작을 확인한다.
+- 모바일 전체 페이지를 별도로 비교한다.
+- 콘솔·네트워크 오류가 없다.
+- 프로덕션 빌드와 LAN 주소에서 모두 확인한다.
 
