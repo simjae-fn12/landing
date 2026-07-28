@@ -2,9 +2,17 @@
 
 import { useEffect, useRef } from "react";
 
-function seeded(index) {
-  const value = Math.sin(index * 127.1 + 311.7) * 43758.5453;
+const LEVELS = [-.07, -.06, -.05, -.04, -.03, .03, .04, .05, .06, .07];
+const COUNT = 900;
+
+function random(index) {
+  const value = Math.sin(index * 127.1 + 311.7) * 43758.5453123;
   return value - Math.floor(value);
+}
+
+function smoothstep(from, to, value) {
+  const t = Math.max(0, Math.min(1, (value - from) / (to - from)));
+  return t * t * (3 - 2 * t);
 }
 
 export default function CommandCanvas({ stageRef }) {
@@ -13,105 +21,137 @@ export default function CommandCanvas({ stageRef }) {
   useEffect(() => {
     const canvas = canvasRef.current;
     const context = canvas.getContext("2d", { alpha: false });
-    const particles = Array.from({ length: 2600 }, (_, index) => {
-      const latitude = (seeded(index) - .5) * Math.PI;
-      const longitude = seeded(index + 7000) * Math.PI * 2;
-      return {
-        sphereX: Math.cos(latitude) * Math.cos(longitude),
-        sphereY: Math.sin(latitude),
-        sphereZ: Math.cos(latitude) * Math.sin(longitude),
-        offset: seeded(index + 14000),
-        size: .45 + seeded(index + 21000) * 1.3
-      };
-    });
+    const rings = LEVELS.map((level, ringIndex) =>
+      Array.from({ length: COUNT }, (_, pointIndex) => {
+        const index = ringIndex * COUNT + pointIndex;
+        return {
+          angle: pointIndex / COUNT * Math.PI * 2,
+          level,
+          phase: random(index + 19000) * Math.PI * 2,
+          drift: random(index + 33000),
+          size: .28 + Math.pow(random(index + 51000), 3) * 1.8,
+          bright: random(index + 76000)
+        };
+      })
+    );
 
     let width = 0;
     let height = 0;
-    let targetScroll = 0;
-    let smoothScroll = 0;
+    let targetProgress = 0;
+    let progress = 0;
     let pointerX = 0;
     let pointerY = 0;
-    let smoothX = 0;
-    let smoothY = 0;
-    let frame;
-    let previous = performance.now();
+    let easedPointerX = 0;
+    let easedPointerY = 0;
+    let frame = 0;
+    let lastTime = performance.now();
 
     const resize = () => {
-      width = innerWidth;
-      height = innerHeight;
-      const ratio = Math.min(devicePixelRatio, width < 768 ? 1 : 1.45);
+      width = window.innerWidth;
+      height = window.innerHeight;
+      const ratio = Math.min(window.devicePixelRatio || 1, width < 760 ? 1 : 1.35);
       canvas.width = Math.round(width * ratio);
       canvas.height = Math.round(height * ratio);
       canvas.style.width = `${width}px`;
       canvas.style.height = `${height}px`;
       context.setTransform(ratio, 0, 0, ratio, 0, 0);
     };
-    const updateScroll = () => {
+
+    const updateProgress = () => {
       const stage = stageRef.current;
       if (!stage) return;
-      const top = stage.getBoundingClientRect().top + scrollY;
-      targetScroll = Math.max(0, Math.min(1, (scrollY - top) / Math.max(stage.offsetHeight - innerHeight, 1)));
-      document.documentElement.style.setProperty("--mc-progress", targetScroll);
+      const bounds = stage.getBoundingClientRect();
+      const distance = Math.max(stage.offsetHeight - window.innerHeight, 1);
+      targetProgress = Math.max(0, Math.min(1, -bounds.top / distance));
+      document.documentElement.style.setProperty("--mc-p", targetProgress.toFixed(4));
+      const slideDistance = Math.max(0, targetProgress - .53) * window.innerWidth * 2.78;
+      document.documentElement.style.setProperty("--mc-slide-x", `${slideDistance.toFixed(1)}px`);
     };
-    const updatePointer = event => {
-      pointerX = event.clientX / width - .5;
-      pointerY = event.clientY / height - .5;
-    };
-    const render = now => {
-      const delta = Math.min((now - previous) / 1000, .05);
-      previous = now;
-      const damping = 1 - Math.exp(-7 * delta);
-      smoothScroll += (targetScroll - smoothScroll) * damping;
-      smoothX += (pointerX - smoothX) * damping;
-      smoothY += (pointerY - smoothY) * damping;
 
-      const gradient = context.createRadialGradient(width * (.52 + smoothX * .08), height * (.42 + smoothY * .05), 10, width * .5, height * .45, Math.max(width, height) * .78);
-      gradient.addColorStop(0, "#4f506f");
-      gradient.addColorStop(.34, "#27283f");
-      gradient.addColorStop(1, "#11111d");
-      context.fillStyle = gradient;
+    const updatePointer = event => {
+      pointerX = event.clientX / Math.max(width, 1) - .5;
+      pointerY = event.clientY / Math.max(height, 1) - .5;
+    };
+
+    const render = now => {
+      const delta = Math.min((now - lastTime) / 1000, .05);
+      lastTime = now;
+      const ease = 1 - Math.exp(-8 * delta);
+      progress += (targetProgress - progress) * ease;
+      easedPointerX += (pointerX - easedPointerX) * ease;
+      easedPointerY += (pointerY - easedPointerY) * ease;
+
+      const background = context.createRadialGradient(
+        width * (.52 + easedPointerX * .025), height * (.48 + easedPointerY * .018), 0,
+        width * .5, height * .5, Math.max(width, height) * .78
+      );
+      background.addColorStop(0, "#29293c");
+      background.addColorStop(.48, "#1b1b2b");
+      background.addColorStop(1, "#101019");
+      context.fillStyle = background;
       context.fillRect(0, 0, width, height);
 
-      const morph = Math.min(1, Math.max(0, (smoothScroll - .12) / .63));
-      const fade = 1 - Math.max(0, (smoothScroll - .84) / .16);
-      const radius = Math.min(width, height) * (.32 + morph * .13);
-      const rotation = smoothScroll * 4.7 + now * .000035;
+      const reveal = 1 - smoothstep(.42, .455, progress);
+      const scatter = 1 - smoothstep(.075, .155, progress);
+      const radiusX = Math.min(width * .29, height * .55);
+      const radiusY = radiusX * .245;
+      const stackHeight = Math.min(height * .24, 230);
+      const centerX = width * .5 + easedPointerX * 18;
+      const centerY = height * (.515 + progress * .018) + easedPointerY * 11;
+      const rotation = now * .000025 + progress * 1.08;
 
-      for (let index = 0; index < particles.length; index++) {
-        const particle = particles[index];
-        const cos = Math.cos(rotation);
-        const sin = Math.sin(rotation);
-        const rotatedX = particle.sphereX * cos - particle.sphereZ * sin;
-        const rotatedZ = particle.sphereX * sin + particle.sphereZ * cos;
-        const sphereScreenX = width * .5 + rotatedX * radius * (1 + rotatedZ * .2);
-        const sphereScreenY = height * .5 + particle.sphereY * radius;
-        const waveX = particle.offset * width * 1.25 - width * .12;
-        const waveY = height * .58 + Math.sin(particle.offset * 18 + now * .00035) * height * .19 + (particle.sphereY * height * .12);
-        const x = sphereScreenX + (waveX - sphereScreenX) * morph + smoothX * 45;
-        const y = sphereScreenY + (waveY - sphereScreenY) * morph + smoothY * 30;
-        const depth = Math.max(.15, .55 + rotatedZ * .45);
-        const pulse = .55 + Math.sin(now * .0015 + particle.offset * 16) * .35;
-        context.globalAlpha = depth * pulse * fade;
-        context.fillStyle = index % 11 === 0 ? "#a7a3d8" : "#f5f3ea";
+      context.lineWidth = .55;
+      rings.forEach((ring, ringIndex) => {
         context.beginPath();
-        context.arc(x, y, particle.size * (1 + depth), 0, Math.PI * 2);
+        ring.forEach((point, pointIndex) => {
+          const angle = point.angle + rotation;
+          const strand = .28 + Math.pow(Math.max(0, Math.cos(angle - .22)), 2.4);
+          const noise = Math.sin(angle * 8 + point.phase + now * .00038) * scatter;
+          const x = centerX + Math.cos(angle) * radiusX
+            + scatter * (point.drift - .5) * width * 1.15 + scatter * strand * width * .12 + noise * 52;
+          const y = centerY + point.level / .14 * stackHeight + Math.sin(angle) * radiusY
+            + scatter * (random(Math.round(point.phase * 10000)) - .5) * height * 1.15 - scatter * strand * height * .18 + noise * 36;
+          if (pointIndex === 0) context.moveTo(x, y);
+          else context.lineTo(x, y);
+        });
+        context.closePath();
+        context.globalAlpha = reveal * (.055 + ringIndex * .003) * (1 - scatter * .72);
+        context.strokeStyle = "#d7d5ea";
+        context.stroke();
+      });
+
+      rings.forEach(ring => ring.forEach(point => {
+        const angle = point.angle + rotation;
+        const depth = (Math.sin(angle) + 1) * .5;
+        const strand = .28 + Math.pow(Math.max(0, Math.cos(angle - .22)), 2.4);
+        const noise = Math.sin(angle * 8 + point.phase + now * .00038) * scatter;
+        const x = centerX + Math.cos(angle) * radiusX
+          + scatter * (point.drift - .5) * width * 1.15 + scatter * strand * width * .12 + noise * 52;
+        const y = centerY + point.level / .14 * stackHeight + Math.sin(angle) * radiusY
+          + scatter * (random(Math.round(point.phase * 10000)) - .5) * height * 1.15 - scatter * strand * height * .18 + noise * 36;
+        const pulse = .72 + Math.sin(now * .0013 + point.phase) * .28;
+        context.globalAlpha = reveal * (.18 + depth * .5) * (.7 + point.bright * .3) * pulse;
+        context.fillStyle = point.bright > .96 ? "#fff" : "#d9d7e6";
+        context.beginPath();
+        context.arc(x, y, point.size * (.72 + depth * .7), 0, Math.PI * 2);
         context.fill();
-      }
+      }));
+
       context.globalAlpha = 1;
       frame = requestAnimationFrame(render);
     };
 
     resize();
-    updateScroll();
-    addEventListener("resize", resize);
-    addEventListener("scroll", updateScroll, { passive: true });
-    addEventListener("pointermove", updatePointer, { passive: true });
+    updateProgress();
+    window.addEventListener("resize", resize);
+    window.addEventListener("scroll", updateProgress, { passive: true });
+    window.addEventListener("pointermove", updatePointer, { passive: true });
     frame = requestAnimationFrame(render);
     return () => {
       cancelAnimationFrame(frame);
-      removeEventListener("resize", resize);
-      removeEventListener("scroll", updateScroll);
-      removeEventListener("pointermove", updatePointer);
+      window.removeEventListener("resize", resize);
+      window.removeEventListener("scroll", updateProgress);
+      window.removeEventListener("pointermove", updatePointer);
     };
   }, [stageRef]);
 

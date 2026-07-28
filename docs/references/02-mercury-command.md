@@ -1,90 +1,135 @@
-# Mercury Command Reference Investigation
+# Mercury Command 레퍼런스 정밀 분석
 
-## 기본 정보
+## 조사 기준
 
-- Site ID: `mercury-command`
-- 원본 URL: `https://mercury.com/command`
-- 조사 날짜: 2026-07-28
-- 구현 경로: `/concepts/mercury-command`
-- 직접 브라우저 캡처: 연결 가능한 브라우저가 없어 미완료
-- 소스 조사: 공개 HTML, CSS, Next.js 페이지 Chunk 및 동적 Canvas Chunk 분석 완료
-- 자산 사용: 로컬 구현에는 다운로드한 공개 비디오 2개를 디자인 스터디 목적으로 사용. 배포 권리는 별도 확인 필요.
+- 원본: `https://mercury.com/command`
+- 조사일: 2026-07-28
+- 기준 뷰포트: 1920 × 1080
+- 전체 문서 높이: 13,945px
+- 인터랙티브 도입부 종료 위치: 6,228px
+- 도입부 실측 길이: 약 576.7vh
+- 캡처: 도입부 전체를 1% 간격, 총 101프레임
+- 프레임 이미지: `reference-captures/mercury-command/full-000.jpg` ~ `full-100.jpg`
+- 프레임별 DOM 측정: `reference-captures/mercury-command/timeline.json`
+- 전체 섹션 좌표: `reference-captures/mercury-command/layout.json`
 
-## 1. 한 줄 정의
+## 중요한 정정
 
-어두운 금융 데이터 파티클 공간에서 자연어 명령 UI가 등장하고, 긴 Sticky 스크롤을 통해 금융 업무가 실행되는 과정을 보여주는 AI 오퍼레이터 랜딩페이지.
+기존 분석의 `350lvh 히어로` 가정은 실제 페이지 전체 도입부를 포함하지 못했다. 원본은 약 577vh 동안 다음 다섯 장면을 연속으로 진행한다.
 
-## 2. 섹션 맵
+1. 파티클 폭발 상태 위에 중앙 히어로 카피
+2. 파티클이 10개의 원통형 링으로 정돈되고 기능명이 순차 변경
+3. 거대한 타이포그래피 형태의 마스크가 캔버스를 가림
+4. `All of Mercury, on Command.` 정적 브리지
+5. 3장짜리 가로 슬라이드 업무 데모
 
-| 순서 | 섹션 | 높이/구조 | Theme | Canvas |
-|---|---|---|---|---|
-| 1 | Hero Command Flow | 약 350lvh / Sticky 100lvh | Dark purple | Particle Canvas |
-| 2 | Task Slideshow | 약 150lvh 이상 | Neutral dark | Hero와 연결 |
-| 3 | Capabilities | Long cards | Light | 없음 |
-| 4 | Command Universe | Marquee/list | Dark | 없음 |
-| 5 | Trust | Two-column | Light | 없음 |
-| 6 | Related Products | Card grid | Light | 이미지/비디오 |
-| 7 | Final CTA/Footer | Large CTA | Dark/neutral | 없음 |
+채팅 UI는 캔버스 위로 올라오는 단일 모달이 아니다. 별도의 넓은 가로 레일 안에서 세 개의 업무 패널이 스크롤에 따라 좌측으로 이동한다.
 
-## 3. Canvas 구조
+## 프레임 타임라인
 
-- 구조 유형: Hero Section Canvas
-- Canvas 개수: Hero 핵심 Canvas 1개
-- DOM 위치: `350lvh` Hero의 `sticky top-0 h-lvh` 내부
-- GLB/GLTF 모델: 없음
-- 파티클 데이터: 정적 Float32Array와 Seeded Random으로 생성
-- 포인트 구성: 10개 수평 링, 약 9,000개 이상의 링 포인트, 별도 Scatter 약 400개
-- 모드: Sphere/Circle 구조에서 Flow 형태로 스크롤 변형
-- 배경: 짙은 네이비·퍼플 그라디언트와 노이즈
+| 진행률 | 스크롤 위치 | 장면 | 관찰 사항 |
+|---:|---:|---|---|
+| 0% | 0px | Hero | 화면 전체에 흩어진 파티클. 중앙 하단에 제목·설명·이메일 CTA. 헤더와 법적 고지 고정. |
+| 8% | 498px | Hero fade | 제목과 설명이 먼저 사라지고 이메일 CTA가 뒤이어 사라짐. |
+| 10% | 623px | Ring formation | 파티클이 아래쪽의 두꺼운 타원 띠로 모이기 시작. 상단 우측에는 잔여 파티클 꼬리. |
+| 11–15% | 685–934px | Send money | 링이 정리되면서 중앙에 `Send money`. 링은 화면 폭 약 50%, 높이 약 45%. |
+| 16–17% | 996–1,059px | Manage cards | 기능명 교체. 링 구조와 카메라는 유지. |
+| 18–20% | 1,121–1,245px | Get insights | 기능명 교체. |
+| 21–22% | 1,308–1,370px | Send invoices | 기능명 교체. |
+| 23–31% | 1,432–1,930px | Invite users | 마지막 기능명. 링은 10개 수평 궤도와 얇은 세로 연결선으로 매우 또렷함. |
+| 32–43% | 1,993–2,678px | Type mask | 거대한 글자 획이 좌측에서 우측으로 지나가며 캔버스는 글자 내부에서만 보임. 헤더는 계속 고정. |
+| 44–52% | 2,740–3,239px | Bridge copy | 캔버스가 완전히 사라지고 `All of Mercury, on Command.`가 중앙에 정적으로 등장. |
+| 45–54% | 2,803–3,363px | Slide rail enter | 아래에서 슬라이드 레일이 올라옴. 제목은 상단 중앙에 유지. |
+| 45–54% | 2,803–3,363px | Slide 1 | 좌: 채팅 시작, 중앙: `Hand off tasks to Command.`, 우: 다음 패널 일부. 하단 고정 CTA와 `1 / 3`. |
+| 55–72% | 3,425–4,484px | Slide 2 | 전체 레일이 좌측 이동. 계좌 선택 UI와 `Review and approve every action.` 중앙 배치. `2 / 3`. |
+| 73–91% | 4,546–5,667px | Slide 3 | 인보이스 완료 UI와 `No tabs, navigating dashboards, or context switching.` 중앙 배치. `3 / 3`. |
+| 92–100% | 5,730–6,228px | Body handoff | 슬라이드가 위로 밀려나고 일반 문서 흐름의 기능 아코디언 섹션 진입. |
 
-## 4. 주요 인터랙션
+## 캔버스 구조
 
-- Hero 높이: 약 `350lvh`
-- Sticky viewport 안에서 CTA, 타이틀, 파티클과 Command UI가 스크롤 값으로 전환
-- 파티클에 Sine, Noise, Pulse 설정 적용
-- 채팅 슬라이드는 Intersection Observer로 중앙 통과 시 활성화
-- 데스크톱은 가로 흐름, 일부 뷰포트는 세로 흐름
-- Hero 마지막에 대형 마스크 타이포와 채팅 UI가 결합
-- `prefers-reduced-motion` 대응 존재
+- GLB/GLTF 모델은 없다.
+- 하나의 고정 Canvas가 도입부 초반을 담당한다.
+- 링은 10개 수평 레벨로 구성된다.
+- 포인트 수는 약 9,000개 수준이며 별도 scatter 포인트가 더해진다.
+- 각 링에는 점뿐 아니라 매우 얇은 연속 선과 희미한 세로 연결선이 존재한다.
+- 초기 프레임은 링이 아니라 화면 전체를 채우는 분산 상태다.
+- 스크롤 초반에 분산 입자가 아래쪽 타원 띠로 수렴하고, 이후 깨끗한 원통으로 정렬된다.
+- 마우스 움직임은 카메라 피치/야우를 미세하게 보정하지만 스크롤 장면을 훼손하지 않는다.
+- 배경은 단색이 아니라 중심이 밝고 가장자리가 어두운 보랏빛 방사형 톤이다.
 
-## 5. 시각 언어
+## 타이포그래피 마스크
 
-- 배경: `#161625`에 가까운 네이비 블랙
-- 파티클: 아이보리 화이트 및 퍼플
-- UI 패널: 반투명 블랙, 퍼플 경계선과 내부 Glow
-- Light 섹션: 따뜻한 아이보리/그레이
-- 타이포: 매우 큰 산세리프 Display와 작은 UI 텍스트 조합
-- 모서리: 큰 Radius의 채팅 패널과 Pill CTA
+- 일반 텍스트의 투명도 변화가 아니다.
+- 화면 전체를 짙은 배경 레이어로 덮고, 초대형 글자 획 내부만 뚫어 Canvas를 노출한다.
+- 글자 크기는 한 화면에 문장 전체가 들어오지 않을 정도로 크다.
+- 마스크 문장이 수평으로 지나가며 여러 프레임에 걸쳐 일부 글자만 보인다.
+- 마스크 종료 후 동일 문장이 작은 일반 텍스트로 중앙에 정착한다.
 
-## 6. 로컬 자산
+NEXT 적용 문구:
 
-| 자산 | 로컬 경로 | 용도 |
-|---|---|---|
-| OG reference | `/assets/mercury-command/og.jpg` | 조사 참고 |
-| Unusual transaction | `/assets/mercury-command/unusual-transaction.mp4` | 제품 카드 모션 |
-| Confirm payment | `/assets/mercury-command/confirm-payment.mp4` | 제품 카드 모션 |
+- 대형 마스크: `All of NEXT, on Command.`
+- 정적 브리지: `All of NEXT, on Command.`
 
-## 7. NEXT 증권 콘텐츠 매핑
+## 슬라이드 레일 레이아웃
 
-| Mercury 역할 | NEXT 증권 역할 |
-|---|---|
-| Command financial operator | NEXT AI 금융 오퍼레이터 |
-| Natural language task execution | 자연어 기반 금융 업무 탐색·실행 지원 |
-| Review and approve | Compliance-by-Design 승인 흐름 |
-| Insights | AI-Native Intelligence |
-| Mercury universe | NEXT 엔터프라이즈 금융 기능 |
-| Accuracy/control | 데이터 출처·권한·감사 추적 |
-| Open account CTA | B2B 파트너십 문의 |
+- 도입부 후반은 약 280vh 규모의 sticky 가로 레일이다.
+- 각 슬라이드는 화면 폭보다 좁은 둥근 사각 패널 세 개가 가로로 이어진 구조다.
+- 현재 슬라이드의 핵심 UI와 설명 문구가 중앙에 오고, 앞·뒤 슬라이드 일부가 양옆에 보인다.
+- 레일 하단:
+  - 좌측: 이메일 또는 Command CTA pill
+  - 우측: `1 / 3`, `2 / 3`, `3 / 3`
+  - 원형 이전/다음 버튼
+- 스크롤이 슬라이드 전환을 주도하지만 버튼으로도 이동 가능해야 한다.
 
-## 8. 구현 체크리스트
+NEXT용 3단 업무 시나리오:
 
-- [x] 공개 HTML과 페이지 콘텐츠 조사
-- [x] Next.js Page Chunk 조사
-- [x] 동적 Canvas Chunk 및 파티클 설정 조사
-- [x] Hero `350lvh` 및 Sticky 구조 확인
-- [x] 비디오 자산 로컬화
-- [ ] 원본 데스크톱 직접 캡처 비교
-- [ ] 원본 모바일 직접 캡처 비교
-- [ ] 포인터·트랙패드 체감 비교
-- [ ] 배포 자산 사용 권한 확인
+1. `시장 데이터와 공시를 한 번에 정리해줘`
+   - 설명: `AI가 필요한 금융 업무를 구조화합니다.`
+2. `출처와 준법 기준을 검토해줘`
+   - 설명: `모든 결과를 검토하고 승인합니다.`
+3. `승인된 인사이트를 채널에 발행해줘`
+   - 설명: `화면 전환 없이 하나의 흐름으로 완료합니다.`
+
+## 이후 본문 구조
+
+### 기능 아코디언
+
+- 섹션 시작: 6,228px
+- 높이: 3,976px
+- 상단 좌측 정렬 제목과 설명
+- 왼쪽에 5개 기능 아코디언, 오른쪽에 큰 제품 데모 패널
+- 선택된 기능이 바뀌면 오른쪽 데모가 교체됨
+
+### 연관 제품
+
+- 시작: 10,204px
+- 높이: 1,159px
+- 큰 제목 아래 3개의 연관 제품 카드
+
+### 최종 CTA
+
+- 시작: 11,363px
+- 높이: 440px
+- 짧고 강한 제목, 설명, 이메일 CTA
+
+### Footer
+
+- 시작: 11,803px
+- 높이: 816px
+
+## 현재 로컬 구현과의 차이
+
+- [ ] 히어로 높이 350vh → 약 577vh 구조로 재설계
+- [ ] 첫 프레임부터 전체 화면 분산 파티클 표시
+- [ ] 히어로 카피 위치와 크기를 원본 비율로 조정
+- [ ] 링 수렴 애니메이션 구현
+- [ ] 원본 기능명 전환 타이밍 적용
+- [ ] 대형 마스크를 실제 수평 이동 마스크로 구현
+- [ ] 마스크 뒤의 정적 브리지 장면 추가
+- [ ] 단일 채팅 모달 제거
+- [ ] 3단 가로 슬라이드 레일 구현
+- [ ] 하단 CTA·페이지 번호·화살표 구현
+- [ ] 일반 본문을 아코디언 + 우측 데모 구조로 변경
+- [ ] 1920×1080 프레임별 로컬 비교
+- [ ] 모바일 별도 캡처 및 재설계
 

@@ -25,3 +25,8 @@ Thumbs.db
 # TypeScript cache
 *.tsbuildinfo
 next-env.d.ts
+
+# local visual QA artifacts
+/.chrome-command-profile/
+/mercury-*.png
+/reference-captures/
