@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NEXT 증권 — AI 기반 금융 투자 플랫폼 (design study)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+  <script type="module" crossorigin src="/legacy/lusion/assets/index-BbQwh1ju.js"></script>
+  <link rel="stylesheet" crossorigin href="/legacy/lusion/assets/index-CwQOq7tg.css">
+</head>
+<body>
+  <canvas id="canvas"></canvas>
+
+  <div id="ui">
+    <div id="page-container">
+      <!-- HERO -->
+      <section class="section section--hero" id="s-hero" data-theme="light">
+        <div class="hero-sticky" id="hero-sticky">
+          <div class="hero-frame" id="hero-frame"></div>
+          <div class="hero-top">
+            <h1 class="hero-tagline" data-split-lines>AI가 만드는 새로운 투자 경험,<br/>지식과 커뮤니티가 연결되는<br/>금융 플랫폼을 만듭니다</h1>
+          </div>
+          <div class="hero-bottom">
+            <span class="crosshair">+</span><span class="crosshair">+</span>
+            <span class="hero-scroll-hint mono">SCROLL TO EXPLORE</span>
+            <span class="crosshair">+</span><span class="crosshair">+</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- INTRO -->
+      <section class="section section--intro" id="s-intro" data-theme="light">
+        <h2 class="display-xl" data-split-lines>투자의 미래를,<br/>지금 여기에</h2>
+        <div class="intro-grid">
+          <div class="intro-media" id="intro-media"></div>
+          <div class="intro-copy">
+            <p data-split-lines>넥스트증권은 지식, 커뮤니티, 투자를 하나로 융합한 AI 기반 금융 투자 플랫폼입니다. 처음 시작하는 투자자부터 전문 투자자까지, 데이터에 기반한 인사이트와 맞춤형 경험으로 모두의 투자를 한 단계 끌어올립니다.</p>
+            <a class="pill pill--light magnetic" href="#s-goal"><span class="dot"></span>OUR VISION</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- REEL -->
+      <section class="section section--reel" id="s-reel" data-theme="light">
+        <div class="reel-ghost" aria-hidden="true">PLAY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FILM</div>
+        <div class="reel-card" id="reel-card">
+          <div class="reel-letters" aria-hidden="true">
+            <span class="reel-word reel-word--l">PLAY</span>
+            <button class="reel-play magnetic" id="reel-play" aria-label="Play brand film">▶</button>
+            <span class="reel-word reel-word--r">FILM</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- FEATURED (services) -->
+      <section class="section section--featured" id="s-featured" data-theme="light">
+        <div class="featured-head">
+          <h2 class="display-xl" data-split-lines>Our Services</h2>
+          <p class="mono featured-note">지식 × 커뮤니티 × 투자 — 초보부터 전문가까지, 모두를 위한 맞춤형 금융 경험.</p>
+        </div>
+        <div class="project-list" id="project-list"></div>
+        <div class="featured-cta">
+          <a class="pill pill--light magnetic" href="#"><span class="dot"></span>SEE ALL SERVICES</a>
+        </div>
+      </section>
+
+      <!-- GOAL / TUNNEL JOURNEY (pinned, WebGL-driven) -->
+      <section class="section section--goal" id="s-goal" data-theme="dark">
+        <div class="goal-sticky">
+          <div class="goal-copy goal-copy--0">
+            <h2 class="display-xl" data-split-lines>데이터가<br/>인사이트가<br/>되는 곳</h2>
+            <div class="goal-copy-side">
+              <p data-split-lines>우리는 유행을 좇지 않습니다. AI가 시장의 방대한 데이터를 읽고, 커뮤니티가 관점을 더하고, 개인화된 콘텐츠가 당신만의 투자 판단을 완성합니다.</p>
+              <p data-split-lines>넥스트증권의 여정은 기술과 금융의 경계에서 시작됩니다. 투자자 한 사람 한 사람에게 맞춘 새로운 투자 경험을 지금 만나보세요.</p>
+            </div>
+          </div>
+          <div class="goal-copy goal-copy--1"><h2 class="goal-words">새로운&nbsp; 투자의&nbsp; 세계로 뛰어드세요,&nbsp; AI가 당신의&nbsp; 여정과&nbsp; 함께합니다</h2></div>
+          <div class="goal-copy goal-copy--2"><div class="pill pill--ghost mono" id="continue-pill">↓ &nbsp;CONTINUE TO SCROLL&nbsp; ↓</div></div>
+        </div>
+      </section>
+
+      <!-- END / CTA + FOOTER -->
+      <section class="section section--end" id="s-end" data-theme="light">
+        <div class="marquee" id="marquee"><div class="marquee-track mono"></div></div>
+        <h2 class="display-xxl" data-split-lines>투자의 다음을,<br/>함께.</h2>
+        <footer class="footer">
+          <div class="footer-col">
+            <span class="mono footer-label">COMPANY</span>
+            <p>넥스트증권 주식회사<br/>NEXT Securities Co., Ltd.<br/>서울, 대한민국</p>
+          </div>
+          <div class="footer-col">
+            <span class="mono footer-label">SOCIAL</span>
+            <a href="https://www.linkedin.com/company/next-securities" class="u" target="_blank" rel="noopener">LinkedIn</a>
+            <a href="#" class="u">Blog</a>
+            <a href="#" class="u">Newsroom</a>
+          </div>
+          <div class="footer-col">
+            <span class="mono footer-label">POLICY</span>
+            <a href="#" class="u">개인정보처리방침</a>
+            <a href="#" class="u">신용정보 활용체제의 공시</a>
+            <span class="mono footer-label" style="margin-top:1.2em">CONTACT</span>
+            <a href="#" class="u">recruit@nextsecurities.com</a>
+          </div>
+          <div class="footer-col footer-col--news">
+            <h3>뉴스레터로<br/>시장을 먼저 읽으세요</h3>
+            <div class="news-input"><input type="email" placeholder="이메일 주소" /><button class="news-btn magnetic">→</button></div>
+          </div>
+        </footer>
+        <div class="footer-base mono">
+          <span>©2026 NEXT SECURITIES — unofficial design-to-code study (structure/motion: lusion.co) · Astronaut model © Poly by Google (CC-BY)</span>
+          <span>Built with Three.js + GSAP</span>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- fixed chrome -->
+  <header id="header">
+    <a class="logo" href="#">NEXT</a>
+    <div class="header-right">
+      <button class="chip magnetic" id="mute-btn" aria-label="Toggle sound"><span id="mute-icon">—</span></button>
+      <button class="pill pill--dark magnetic" id="talk-btn">시작하기 <span class="pill-dot">•</span></button>
+      <button class="pill pill--grey magnetic" id="menu-btn">MENU <span class="pill-dots">••</span></button>
+    </div>
+  </header>
+
+  <div id="scroll-indicator"><div id="scroll-thumb"></div></div>
+
+  <div id="video-overlay" hidden>
+    <button id="video-close" class="pill pill--grey magnetic">CLOSE</button>
+    <div id="video-holder"></div>
+  </div>
+
+  <div id="preloader">
+    <div class="pre-center">
+      <span class="pre-logo">NEXT</span>
+      <span class="pre-count mono" id="pre-count">0</span>
+    </div>
+  </div>
+
+</body>
+</html>

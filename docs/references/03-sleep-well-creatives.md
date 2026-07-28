@@ -69,3 +69,27 @@
 - [x] 모바일 레이아웃
 - [ ] 원본/로컬 1% 병렬 비교 후 수치 보정
 - [ ] 저사양 장치 Intersection Observer 기반 Canvas 휴지
+
+## 구현 과정에서 확인한 미세 보정 기준
+
+- 원본 카메라는 `PerspectiveCamera(35)`와 `camera.position.z = 6`을 사용한다.
+- Hero `IntroScene2.glb`는 bounding box 정규화 없이 authored scale `1`을 사용한다.
+- 모델을 약 `0.147`로 일괄 정규화했을 때 지형 때문에 인물이 7~9배 작아지는 오류가 발생했다.
+- Hero의 `BG` node는 기본 검정 재질 그대로가 아니라 clone/reveal material과 함께 처리된다.
+- scene range는 실제 section top/height로 계산해야 한다. 임의 범위는 다음 섹션에 이전 모델을 남긴다.
+- Can scene은 raw 모델 64개를 복제하고 별도 group scale·rotation·수직 timeline을 사용한다.
+- Phone은 `HandsPhone`과 `AssetsPhoneScene`을 분리한다. Phone scale은 `3.57 → .47`, assets scale은 `.27`, assets rotation은 `(.47, .4, .02)`다.
+- Lamp와 Woman도 raw authored model과 독립적인 group scroll timeline을 사용한다.
+- Solutions는 placeholder가 아니라 6개의 실제 loop media와 100vh sticky 교체 구조를 사용한다.
+- Rope, Book, Butterfly처럼 서로 다른 오브젝트에 동일한 넓은 active range를 주면 원본에 없는 중첩이 발생한다.
+
+## 남은 시각 QA
+
+- [ ] 0~100% 원본/로컬 1% 병렬 비교표 완성
+- [ ] Tunnel rope geometry와 fog/shader를 원본 번들 기준으로 교체
+- [ ] Hero reveal/dissolve shader 재현
+- [ ] Can 화면 bounds와 수직 timeline 픽셀 보정
+- [ ] Phone 단계별 callout 및 bend plane reveal 보정
+- [ ] Follow-path 모델 순서와 curve progress 보정
+- [ ] Ender 미디어/타이포 handoff 보정
+- [ ] 모바일 전체 프레임 비교

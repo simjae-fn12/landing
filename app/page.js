@@ -25,10 +25,19 @@ const concepts = [
   },
   {
     number: "04",
-    title: "Reference Concept 04",
-    reference: "Reference URL required",
-    description: "네 번째 레퍼런스 사이트를 위한 독립 라우트입니다.",
-    status: "PLANNED"
+    title: "Digital Weather Systems",
+    reference: "Active Theory",
+    description: "가상 스크롤, 척추 나선 하강, GPU 포인트클라우드와 8개 전시 장면을 결합한 WebGL 콘셉트.",
+    href: "/concepts/active-theory",
+    status: "VIEW CONCEPT"
+  },
+  {
+    number: "05",
+    title: "Immersive Financial Journey",
+    reference: "Lusion",
+    description: "실시간 터널, 우주인 모델, 모핑 카드와 오토파일럿 재생을 적용한 NEXT 증권 랜딩 콘셉트.",
+    href: "/concepts/lusion",
+    status: "VIEW CONCEPT"
   }
 ];
 
@@ -41,7 +50,7 @@ export default function ConceptIndex() {
       </header>
       <section className="index-hero">
         <p className="index-kicker">REFERENCE-DRIVEN DESIGN SYSTEM</p>
-        <h1>Four directions.<br />One financial standard.</h1>
+        <h1>Five directions.<br />One financial standard.</h1>
         <p className="index-intro">서로 다른 글로벌 레퍼런스를 독립적인 Next.js 라우트로 구현하고, 하나의 NEXT 증권 메시지를 다양한 시각 언어로 탐색합니다.</p>
       </section>
       <section className="concept-list">
@@ -56,7 +65,7 @@ export default function ConceptIndex() {
             : <article className="concept-card" key={concept.number}>{content}</article>;
         })}
       </section>
-      <footer className="index-footer"><span>© 2026 NEXT SECURITIES</span><span>4 CONCEPT ROUTES</span></footer>
+      <footer className="index-footer"><span>© 2026 NEXT SECURITIES</span><span>5 CONCEPT ROUTES</span></footer>
     </main>
   );
 }

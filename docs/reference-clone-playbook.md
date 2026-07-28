@@ -186,3 +186,39 @@ Canvas를 먼저 만들지 않는다. 컨테이너 높이와 pin 구간이 틀�
 - z-index 숫자를 임의로 키워 문제를 숨기지 않는다.
 - 빌드 성공만으로 완료 처리하지 않는다.
 
+## 11. 미세 보정 필수 게이트
+
+미세 보정은 구현 후 선택적으로 다듬는 작업이 아니라 레퍼런스 복제의 필수 완료 조건이다.
+
+### 동일 좌표 비교
+
+- 원본과 로컬은 같은 viewport, 같은 `scrollY`, 같은 section progress에서 비교한다.
+- 전역 퍼센트만 맞추지 말고 `sectionStart`, `sectionEnd`, `pinDistance`로 local progress를 계산한다.
+- 전역 1% 프레임 전체와 각 장면의 진입·25%·50%·75%·이탈 프레임을 비교한다.
+- 모델 로딩과 scroll smoothing이 안정된 뒤 캡처한다.
+
+### 모델과 카메라
+
+- GLB를 bounding box 기준으로 임의 정규화하지 않는다. 원본의 authored scale 사용 여부를 먼저 확인한다.
+- 원본 카메라의 `FOV`, position, near/far, target을 번들 또는 런타임에서 추출한다.
+- scene root뿐 아니라 하위 node별 position·rotation·scale·visibility와 material 교체 여부를 기록한다.
+- 모델 화면 점유율을 픽셀로 비교한다: 좌우 폭, 상단, 하단, 중심점, 주요 인물/제품 높이.
+- 원본이 clone, reveal material, dissolve shader를 사용하면 기본 GLB 재질만 표시한 상태를 완료로 인정하지 않는다.
+- 여러 모델의 active range를 각각 기록하고 이전 장면 잔류와 의도하지 않은 동시 노출을 검사한다.
+
+### 오차 기록
+
+| 항목 | 원본 | 로컬 | 오차 | 조치 |
+|---|---:|---:|---:|---|
+| 모델 화면 폭 | px | px | % | camera/scale |
+| 주요 인물 높이 | px | px | % | node transform |
+| 타이포 top | px | px | px | layout |
+| 배경 전환 | scroll px | scroll px | px | active range |
+| sticky 종료 | scroll px | scroll px | px | section height |
+
+### 완료 조건
+
+- 히어로만 맞고 후속 장면이 근사 상태인 구현은 완료가 아니다.
+- 모든 섹션의 모델, 영상, 타이포, 배경, sticky handoff를 비교한다.
+- HTTP 200, 빌드 성공, 모델 표시 여부만으로 시각 QA를 통과했다고 판단하지 않는다.
+- 사용자가 특정 장면 캡처만 제공해도 작업 범위는 랜딩 전체이며 나머지 장면은 에이전트가 직접 확인한다.

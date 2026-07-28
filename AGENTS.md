@@ -76,3 +76,15 @@ DOM 순서와 화면의 시각적 순서를 혼동하지 않는다. absolute 요
 - 콘솔·네트워크 오류가 없다.
 - 프로덕션 빌드와 LAN 주소에서 모두 확인한다.
 
+## 필수 미세 보정 규칙
+
+- 사용자가 히어로 한 장면만 지적해도 해당 장면만 수정하고 끝내지 않는다. 전체 랜딩을 다시 캡처해 다른 섹션의 동일 유형 오류를 점검한다.
+- GLB/GLTF는 임의로 bounding-box normalization 하지 않는다. 원본 코드 또는 런타임에서 authored scale 사용 여부를 확인한다.
+- 원본 카메라 FOV, z, target, near/far와 scene/node별 transform을 추출한 뒤 구현한다.
+- 모델이 보이는 것과 원본 크기·위치가 맞는 것은 별개다. 화면 bounds를 픽셀 단위로 비교한다.
+- 전역 scroll percentage만으로 scene range를 추정하지 않는다. 측정한 section bounds와 local progress를 사용한다.
+- 원본/로컬 비교는 같은 viewport, 같은 scrollY, smoothing이 안정된 상태에서 수행한다.
+- Hero, Tunnel, Woman, Clock, Cans, Phone, Lamp, Solutions, Ender를 모두 독립적으로 검증한다.
+- 이전 scene이 다음 section까지 남는지, 여러 model group이 의도치 않게 동시에 보이는지 전체 1% 프레임에서 확인한다.
+- 실제 loop video, shader, clone material, mask가 확인되면 임시 CSS 도형을 최종 구현으로 남기지 않는다.
+- 빌드 성공과 HTTP 200은 기능 확인일 뿐 시각적 완료 조건이 아니다.

@@ -137,3 +137,32 @@
 - [ ] 콘솔 및 네트워크 오류 없음
 - [ ] 프로덕션 빌드 통과
 
+## 15. Model and camera calibration
+
+| scene | model/node | authored scale | runtime scale | rotation | position | camera FOV/z | screen bounds |
+|---|---|---:|---:|---|---|---|---|
+|  |  |  |  |  |  |  |  |
+
+- GLB normalization used: yes / no
+- If yes, evidence that the original normalizes:
+- Clone/reveal material:
+- Shader uniforms:
+- Animation clips or GSAP timeline:
+- Model load completion wait:
+
+## 16. Original/local frame delta
+
+| global % | scrollY | section progress | original state | local state | size delta | timing delta | fix |
+|---:|---:|---:|---|---|---:|---:|---|
+|  |  |  |  |  |  |  |  |
+
+- [ ] Same viewport and devicePixelRatio
+- [ ] Same scroll position and settled smoothing
+- [ ] Object width/height/center measured in pixels
+- [ ] Camera FOV, z, target verified
+- [ ] Child-node transforms verified
+- [ ] Scene entry and exit verified
+- [ ] No stale model from previous section
+- [ ] No unintended simultaneous scene groups
+- [ ] All non-hero sections checked independently
+- [ ] Full 1% comparison rerun after final adjustment
