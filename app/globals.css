@@ -1,0 +1,23 @@
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%}
+body{background:#0a0a0a;color:#f3f3ee;font-family:Arial,sans-serif}
+a{color:inherit;text-decoration:none}
+.concept-index{max-width:1600px;margin:0 auto;padding:0 42px;background:#0a0a0a;min-height:100vh}
+.index-header{height:94px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #292929}
+.index-logo{font-size:23px;font-weight:800;letter-spacing:-.05em}
+.index-header p{margin:0;color:#777;font:11px/1.4 monospace;text-align:right;letter-spacing:.08em}
+.index-hero{padding:110px 0 90px;border-bottom:1px solid #292929}
+.index-kicker{font:11px monospace;letter-spacing:.16em;color:#00d632;margin:0 0 34px}
+.index-hero h1{font-size:clamp(58px,8vw,132px);font-weight:500;line-height:.86;letter-spacing:-.075em;margin:0;max-width:1250px}
+.index-intro{max-width:530px;margin:48px 0 0 auto;color:#aaa;font-size:17px;line-height:1.55}
+.concept-list{display:flex;flex-direction:column}
+.concept-card{display:grid;grid-template-columns:80px 1fr 180px;gap:30px;align-items:start;padding:48px 0;border-bottom:1px solid #292929;color:#777;transition:color .3s,padding .3s}
+.concept-card--active{color:#f3f3ee}
+.concept-card--active:hover{padding-left:16px;color:#00d632}
+.concept-number,.concept-reference,.concept-status{font:11px monospace;letter-spacing:.08em}
+.concept-reference{margin:0 0 12px;color:#666;text-transform:uppercase}
+.concept-card h2{font-size:clamp(28px,3.2vw,52px);font-weight:500;letter-spacing:-.045em;margin:0}
+.concept-description{max-width:580px;color:#777;line-height:1.5;margin:18px 0 0}
+.concept-status{text-align:right;padding-top:4px}
+.index-footer{height:110px;display:flex;align-items:center;justify-content:space-between;color:#555;font:11px monospace}
+@media(max-width:700px){.concept-index{padding:0 20px}.index-hero{padding:80px 0 60px}.index-hero h1{font-size:54px}.index-intro{margin:35px 0 0}.concept-card{grid-template-columns:42px 1fr;padding:34px 0}.concept-status{grid-column:2;text-align:left}.index-header p{display:none}}
