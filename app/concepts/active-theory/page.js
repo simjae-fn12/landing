@@ -1,12 +1,5 @@
-export default function ActiveTheoryConcept() {
-  return (
-    <main className="embedded-concept">
-      <iframe
-        src="/legacy/active-theory/index.html"
-        title="Digital Weather Systems — Active Theory recreation"
-        allow="autoplay; fullscreen"
-      />
-      <a className="embedded-back" href="/">← CONCEPT INDEX</a>
-    </main>
-  );
+import {redirect} from "next/navigation";
+
+export default function ShopifySpringConcept() {
+  redirect("/editions/spring2026?v=20260729-13");
 }

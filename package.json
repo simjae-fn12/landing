@@ -5,7 +5,9 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "mirror:shopify": "node scripts/mirror-shopify-s26.mjs",
+    "verify:shopify": "node scripts/verify-shopify-mirror.mjs"
   },
   "dependencies": {
     "next": "16.2.12",

@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0b0b0c">
+  <title>NEXT Editions — Everywhere</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css?v=26">
+</head>
+<body>
+  <div class="loader" id="loader">
+    <div class="loader-logo">NEXT<span>SPRING ’26</span></div>
+    <div class="loader-track"><i id="loaderBar"></i></div>
+    <b id="loaderCount">00</b>
+  </div>
+
+  <canvas id="scene" aria-hidden="true"></canvas>
+  <div class="veil" aria-hidden="true"></div>
+
+  <header class="nav">
+    <a class="brand" href="#hero"><b>N</b><span>NEXT</span></a>
+    <nav>
+      <a href="#intelligence">Intelligence</a>
+      <a href="#trading">Trading</a>
+      <a href="#platform">Platform</a>
+      <a href="#enterprise">Enterprise</a>
+    </nav>
+    <div class="nav-meta"><span>SPRING ’26</span><button type="button" id="soundToggle">SOUND OFF</button></div>
+  </header>
+
+  <main>
+    <section class="hero scene-section" id="hero" data-scene="hero">
+      <div class="hero-sticky">
+        <div class="hero-ring" aria-hidden="true">
+          <div class="ring-copy ring-copy-a">Everywhere&nbsp; Everywhere&nbsp; Everywhere&nbsp;</div>
+          <div class="ring-copy ring-copy-b">Everywhere&nbsp; Everywhere&nbsp; Everywhere&nbsp;</div>
+        </div>
+        <h1>Everywhere</h1>
+        <p class="hero-kicker">금융의 모든 순간을 하나의 기술로</p>
+        <div class="hero-intro">
+          <span>150+ CAPABILITIES</span>
+          <p>발견하고, 이해하고, 실행하는 모든 금융 경험.<br>NEXT는 데이터와 거래를 하나의 흐름으로 연결합니다.</p>
+        </div>
+        <div class="hero-index">
+          <a href="#intelligence">AI Native</a><a href="#trading">Media Trading</a>
+          <a href="#platform">Headless</a><a href="#compliance">Compliance</a>
+          <a href="#global">Global R&amp;D</a><a href="#enterprise">Enterprise</a>
+        </div>
+        <div class="hero-scroll">SCROLL TO EXPLORE <i>↓</i></div>
+      </div>
+    </section>
+
+    <section class="opening scene-section" id="opening" data-scene="forest">
+      <div class="opening-sticky">
+        <span class="eyebrow">NEXT SECURITIES / SPRING 2026</span>
+        <h2><span>금융은 더 이상</span><span>한곳에 머물지 않습니다.</span></h2>
+        <div class="opening-foot">
+          <p>정보를 읽는 순간부터 주문과 리스크 관리까지.<br>기술 위에서 끊김 없이 이어지는 차세대 금융 인프라.</p>
+          <b>01—06</b>
+        </div>
+      </div>
+    </section>
+
+    <section class="feature feature-dark scene-section" id="intelligence" data-scene="mini">
+      <div class="feature-sticky">
+        <div class="feature-number">01 / AI-NATIVE</div>
+        <div class="feature-heading">
+          <span>VERIFIED INTELLIGENCE</span>
+          <h2>시장의 소음을 걷어내고<br>신호만 남깁니다.</h2>
+        </div>
+        <div class="feature-copy">
+          <p>AI 백엔드가 시장 데이터와 매매 패턴을 추적하고, 준법 가이드라인 안에서 검증된 인사이트만 선명하게 큐레이션합니다.</p>
+          <a href="#trading">EXPLORE INTELLIGENCE <b>↗</b></a>
+        </div>
+        <div class="data-tag data-tag-a"><i></i><span>MARKET SIGNAL</span><strong>98.42</strong></div>
+        <div class="data-tag data-tag-b"><i></i><span>COMPLIANCE LAYER</span><strong>ACTIVE</strong></div>
+      </div>
+    </section>
+
+    <section class="editorial" aria-label="AI Native updates">
+      <header><span>AI-NATIVE INTELLIGENCE</span><h2>복잡한 데이터를<br>판단 가능한 정보로.</h2></header>
+      <div class="cards">
+        <article class="card card-wide"><b>01</b><h3>실시간 시장 토폴로지</h3><p>시장 데이터의 밀도와 흐름을 입체적으로 보여주는 분석 레이어.</p><div class="mini-ui"><i></i><i></i><i></i><i></i><i></i></div></article>
+        <article class="card"><b>02</b><h3>검증된 인사이트</h3><p>준법 기준을 통과한 객관적 데이터 신호를 빠르게 확인합니다.</p><span class="card-arrow">↗</span></article>
+        <article class="card"><b>03</b><h3>개인화 리스크 케어</h3><p>매매 패턴에 맞춘 정밀 리스크 신호와 가용성 지표.</p><span class="card-arrow">↗</span></article>
+      </div>
+    </section>
+
+    <section class="feature feature-cream scene-section" id="trading" data-scene="arches">
+      <div class="feature-sticky">
+        <div class="feature-number">02 / MEDIA-FIRST</div>
+        <div class="feature-heading feature-heading-right">
+          <span>ZERO-FRICTION PIPELINE</span>
+          <h2>콘텐츠가 거래로<br>이어지는 순간.</h2>
+        </div>
+        <div class="feature-copy feature-copy-left">
+          <p>AI가 가공한 숏폼 인사이트 소비가 탐색 마찰 없이 주문과 포트폴리오 재구성으로 연결됩니다.</p>
+          <a href="#platform">SEE THE PIPELINE <b>↗</b></a>
+        </div>
+        <div class="axis-labels"><span>DISCOVER</span><span>UNDERSTAND</span><span>EXECUTE</span></div>
+      </div>
+    </section>
+
+    <section class="editorial editorial-ink">
+      <header><span>MEDIA TRADING</span><h2>탐색과 실행 사이의<br>거리를 0으로.</h2></header>
+      <div class="cards">
+        <article class="card"><b>01</b><h3>15초 마켓렌즈</h3><p>핵심 데이터만 짧고 명확하게 전달합니다.</p><span class="card-arrow">↗</span></article>
+        <article class="card card-wide"><b>02</b><h3>One-flow execution</h3><p>인사이트에서 주문까지 맥락을 유지하는 단일 플로우.</p><div class="flow-ui"><i></i><i></i><i></i></div></article>
+        <article class="card"><b>03</b><h3>Portfolio context</h3><p>현재 보유 자산과 연관된 객관적 시장 정보를 연결합니다.</p><span class="card-arrow">↗</span></article>
+      </div>
+    </section>
+
+    <section class="feature feature-blue scene-section" id="platform" data-scene="globe">
+      <div class="feature-sticky">
+        <div class="feature-number">03 / HEADLESS ENTERPRISE</div>
+        <div class="feature-heading">
+          <span>LEGACY-FREE / CLOUD NATIVE</span>
+          <h2>기술 부채 없이<br>확장되는 금융 인프라.</h2>
+        </div>
+        <div class="metrics">
+          <div><span>거래 연속성</span><strong>99.999%</strong></div>
+          <div><span>Architecture</span><strong>HEADLESS MSA</strong></div>
+          <div><span>Infrastructure</span><strong>AWS CLOUD</strong></div>
+        </div>
+        <div class="feature-copy">
+          <p>프론트엔드와 백엔드를 완전히 분리한 RESTful API 구조로 대용량 트래픽과 빠른 채널 확산을 동시에 확보합니다.</p>
+          <a href="#compliance">VIEW ARCHITECTURE <b>↗</b></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="feature feature-violet scene-section" id="compliance" data-scene="retail">
+      <div class="feature-sticky">
+        <div class="feature-number">04 / COMPLIANCE-BY-DESIGN</div>
+        <div class="feature-heading feature-heading-center">
+          <span>COMPLIANCE FIRST</span>
+          <h2>준법이 시스템 안에서<br>먼저 작동하도록.</h2>
+        </div>
+        <div class="orbit-copy"><span>전자금융감독규정</span><span>망분리 보안</span><span>금융소비자보호</span><span>자동화 CMS</span></div>
+        <div class="feature-copy feature-copy-center"><p>규정을 사후 검토하는 것이 아니라 제품과 운영 아키텍처의 기본값으로 설계합니다.</p></div>
+      </div>
+    </section>
+
+    <section class="feature feature-lime scene-section" id="global" data-scene="shopapp">
+      <div class="feature-sticky">
+        <div class="feature-number">05 / GLOBAL R&amp;D</div>
+        <div class="feature-heading">
+          <span>SEOUL / SINGAPORE / UNITED STATES</span>
+          <h2>세계의 기술을<br>하나의 금융 표준으로.</h2>
+        </div>
+        <div class="locations"><span>37.5665° N<br>SEOUL</span><span>1.3521° N<br>SINGAPORE</span><span>37.7749° N<br>SAN FRANCISCO</span></div>
+        <div class="feature-copy"><p>글로벌 AI·IT 인재와 선진 핀테크 규제 환경을 연결하는 R&amp;D 네트워크.</p><a href="#enterprise">MEET NEXT <b>↗</b></a></div>
+      </div>
+    </section>
+
+    <section class="enterprise" id="enterprise">
+      <span>CORE STRENGTHS</span>
+      <h2>One platform.<br>Every financial moment.</h2>
+      <div class="enterprise-grid">
+        <article><b>01</b><h3>Zero-Friction<br>Trading</h3><p>콘텐츠에서 실행까지 끊김 없는 미디어 트레이딩 파이프라인.</p><i>↗</i></article>
+        <article><b>02</b><h3>Intelligent<br>Risk Signal</h3><p>개인별 데이터에 최적화된 객관적 리스크 신호.</p><i>↗</i></article>
+        <article><b>03</b><h3>Enterprise<br>Continuity</h3><p>대규모 트래픽에서도 유지되는 클라우드 네이티브 연속성.</p><i>↗</i></article>
+        <article><b>04</b><h3>Automated<br>Content Ops</h3><p>준법 승인과 예약 발행까지 연결한 통합 Headless CMS.</p><i>↗</i></article>
+      </div>
+    </section>
+
+    <footer class="finale scene-section" data-scene="finale">
+      <div class="finale-sticky">
+        <span>THE NEXT STANDARD OF SECURITIES</span>
+        <h2>금융의 다음은<br><em>어디에나.</em></h2>
+        <a href="mailto:recruit@nextsecurities.com">프로젝트 문의하기 <b>↗</b></a>
+        <div><span>© 2026 NEXT SECURITIES</span><span>SEOUL / KOREA</span><span>COMPLIANCE-BY-DESIGN</span></div>
+      </div>
+    </footer>
+  </main>
+
+  <div class="legal">공시 데이터 기반의 이해를 돕기 위한 시각화 예시이며 특정 종목에 대한 투자 권유 또는 자문을 제공하지 않습니다.</div>
+  <script type="module" src="./scene.js?v=26"></script>
+</body>
+</html>

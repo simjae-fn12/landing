@@ -30,3 +30,6 @@ next-env.d.ts
 /.chrome-command-profile/
 /mercury-*.png
 /reference-captures/
+/.qa/
+/.tmp-shopify-assets/
+/.tmp-shopify-*

@@ -36,11 +36,15 @@ for (const [name, url] of routes) {
         frameLoaded: Boolean(doc?.body),
         frameTitle: doc?.title || "",
         canvases: doc?.querySelectorAll("canvas").length || 0,
+        webgl: Boolean(doc?.querySelector("canvas")?.getContext("webgl2")),
+        loaderDone: doc?.querySelector(".loader")?.classList.contains("done") ?? null,
+        scrollHeight: doc?.documentElement?.scrollHeight || 0,
         bodyText: (doc?.body?.innerText || "").slice(0, 120)
       };
     })()`,
     returnByValue: true
   });
   console.log(name, JSON.stringify(result.result.value));
+  await send("Page.close").catch(() => {});
   socket.close();
 }

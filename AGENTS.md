@@ -1,90 +1,92 @@
 # Reference Landing Clone Rules
 
-이 저장소에서 레퍼런스 랜딩 페이지를 구현하는 모든 에이전트는 아래 절차를 따른다.
+이 저장소의 목적은 레퍼런스 사이트의 표면적인 분위기만 흉내 내는 것이 아니라, 실제 사용자가 느끼는 레이아웃, 스크롤 타임라인, Canvas/WebGL 장면, 마우스 반응, 전환 타이밍을 로컬 코드로 재현하는 것입니다.
 
 ## 핵심 원칙
 
-- 복제 대상은 히어로 하나가 아니라 페이지 전체의 레이아웃과 스크롤 경험이다.
-- 구현 전에 원본 전체 페이지를 직접 스크롤하며 조사한다.
-- DOM의 정상 흐름, sticky, fixed, absolute, z-index, mask, clip, transform을 구분한다.
-- Canvas/WebGL 장면이 섹션마다 별도인지, 전역 Canvas에서 그룹만 교체하는지 확인한다.
-- 원본의 섹션 경계와 스크롤 타이밍을 조사하지 않은 상태에서 코드를 작성하지 않는다.
-- 시각 구조와 인터랙션은 원본에 맞추고 문구만 NEXT증권 콘텐츠로 치환한다.
-- 빌드 성공이나 HTTP 200은 시각적 완료의 증거가 아니다.
+- 레퍼런스 사이트를 먼저 끝까지 직접 확인합니다.
+- 첫 화면만 보고 구현하지 않습니다.
+- 히어로뿐 아니라 전체 랜딩의 모든 섹션과 전환 구간을 조사합니다.
+- 단순 이미지나 CSS 도형으로 대체하지 말고, 원본이 Canvas/WebGL/3D를 사용하면 동일한 계열의 기술로 재현합니다.
+- 원본의 모델, 텍스처, 영상, 셰이더, 폰트, SVG 등 공개적으로 로드되는 에셋을 우선 조사합니다.
+- 에셋을 직접 사용할 수 없을 때만 유사 모델과 절차적 셰이더를 제작합니다.
+- iframe으로 원본 사이트를 보여주는 방식은 클론 완료로 인정하지 않습니다.
+- 모든 핵심 기능은 이 저장소의 로컬 소스에서 동작해야 합니다.
 
 ## 구현 전 필수 조사
 
-1. 데스크톱 전체 문서 높이와 모든 주요 섹션의 시작점·높이를 측정한다.
-2. 전체 문서를 최소 1% 또는 50~100px 간격으로 캡처한다.
-3. 변화가 많은 pinned 구간은 더 작은 간격으로 재캡처한다.
-4. 각 프레임에서 가시 텍스트, 이미지, 영상, Canvas, SVG, sticky 요소의 좌표와 크기를 기록한다.
-5. 각 섹션의 `position`, containing block, overflow, z-index stacking context를 기록한다.
-6. 섹션 사이의 음수 margin, transform overlap, absolute overlap 여부를 기록한다.
-7. 마우스 이동, hover, drag, click, 메뉴, 모달, 아코디언, 슬라이더를 별도로 테스트한다.
-8. 모바일에서 동일한 장면이 축소되는지, 다른 DOM·Canvas·영상으로 교체되는지 확인한다.
-9. 네트워크에서 GLB/GLTF, texture, video, SVG, shader, scene JSON을 조사한다.
-10. 조사 결과를 `docs/references/<site-id>.md`에 먼저 작성한다.
+다음 항목을 조사하고 `docs/references/` 아래의 문서에 기록합니다.
+
+1. 전체 페이지 높이와 섹션 순서
+2. 각 섹션의 시작/종료 스크롤 위치
+3. sticky, fixed, absolute, relative 요소
+4. z-index와 레이어 관계
+5. Canvas/WebGL 캔버스의 개수와 담당 섹션
+6. 각 캔버스 장면의 모델, 텍스처, 파티클, 셰이더
+7. 스크롤에 따른 카메라, 모델, 텍스트, 배경 변화
+8. 마우스 이동, 드래그, 호버, 클릭 반응
+9. 데스크톱과 모바일의 레이아웃 차이
+10. reduced-motion, 저사양 환경, 로딩 실패 시 대체 화면
 
 ## 레이아웃 조사 규칙
 
-각 주요 요소에 아래 값을 기록한다.
-
-- 부모 섹션과 실제 containing block
-- `position`: static / relative / sticky / fixed / absolute
-- top / right / bottom / left
-- width / height / min-height
-- margin / padding / gap
-- transform과 transform-origin
-- overflow / clip-path / mask
-- z-index와 새 stacking context 생성 원인
-- blend mode, backdrop filter, opacity
-- 진입 전·활성·이탈 후 상태
-
-DOM 순서와 화면의 시각적 순서를 혼동하지 않는다. absolute 요소가 다음 섹션 위에 겹치거나 sticky 요소가 여러 섹션을 관통하면 그 범위를 픽셀 단위로 기록한다.
+- 섹션을 단순히 세로로 쌓지 않습니다.
+- 겹치는 그룹, 화면 밖에서 들어오는 요소, 마스크, 클리핑, 블렌드 모드까지 확인합니다.
+- sticky 부모의 실제 높이와 sticky 자식의 높이를 따로 기록합니다.
+- `position: absolute` 요소의 기준 컨테이너를 확인합니다.
+- 헤더가 섹션별로 색상, 배경, 블렌드 모드를 바꾸는지 확인합니다.
+- 뷰포트 중앙 정렬인지, 특정 그리드/가이드에 정렬되는지 확인합니다.
+- 타이포그래피는 글꼴, 굵기, 자간, 행간, 줄바꿈 위치를 함께 맞춥니다.
 
 ## 스크롤 시스템 조사 규칙
 
-- 페이지 전체 진행률만 사용하지 않는다.
-- 각 섹션에 대해 `localProgress = (scrollY - sectionStart) / pinDistance`를 측정한다.
-- pinned 구간의 실제 scroll distance와 sticky viewport 높이를 따로 기록한다.
-- scene별 시작·유지·종료 구간을 구분한다.
-- opacity만 바뀌는지, display/visibility가 교체되는지 확인한다.
-- scrub smoothing, lerp, easing과 scroll velocity 반응을 확인한다.
-- 수평 레일은 translate 거리, 카드 폭, gap, 앞뒤 카드 노출량을 측정한다.
-- 섹션 종료 시 일반 문서 흐름으로 넘어가는 handoff 프레임을 반드시 확인한다.
+- 0%, 5%, 10% 단위의 거친 확인만으로 끝내지 않습니다.
+- 주요 전환 구간은 더 작은 간격으로 캡처하고 비교합니다.
+- 진입 전, 진입 직후, 전환 시작·중간·완료 직전, 다음 섹션과 겹치는 구간을 구분합니다.
+- 스크롤을 빠르게 움직였을 때와 천천히 움직였을 때 모두 확인합니다.
+- 역방향 스크롤 시 장면이 정상적으로 복원되는지 확인합니다.
+- 스크롤 진행률은 원본과 동일한 구간 길이에 매핑합니다.
+- 버벅임이 있으면 입력값을 바로 렌더링하지 말고 보간된 목표값을 사용합니다.
 
 ## Canvas / WebGL 조사 규칙
 
-- Canvas 개수와 DOM 위치를 확인한다.
-- Global / Section / Hybrid 구조를 추측하지 말고 실제 DOM과 네트워크로 판별한다.
-- 동일 모델의 반복인지 서로 다른 scene group인지 구분한다.
-- 모델, 파티클, 라인, 스프라이트, 텍스트가 어느 레이어에서 그려지는지 기록한다.
-- 카메라 FOV, pitch/yaw, scale, center offset, clipping을 프레임별로 비교한다.
-- bloom, DOF, SSAO, noise, vignette, tone mapping 순서를 기록한다.
-- pointer 반응 범위, 감쇠 시간, 최대 회전량을 측정한다.
-- 원본에 없는 3D 모델이나 임의 효과를 추가하지 않는다.
-- Canvas 출력은 원본과 동일한 스크롤 지점의 스크린샷으로 검증한다.
+- 캔버스 하나가 전체 페이지에 고정되어 장면을 교체하는지, 섹션별 캔버스가 따로 있는지 확인합니다.
+- 모델의 실제 화면 점유율과 카메라 FOV를 스크린샷으로 비교합니다.
+- 단순 회전만 구현하지 말고 카메라 이동, 모델 이동, 스케일, 조명, 재질 변화를 분리합니다.
+- 파티클은 개수만 늘리지 말고 분포, 크기, 깊이감, 밝기, 움직임의 방향을 맞춥니다.
+- 마우스 입력은 목표값과 현재값을 분리해 감쇠 보간합니다.
+- 고해상도 화면에서는 DPR 상한을 두되 시각적으로 뭉개지지 않게 합니다.
+- 화면 밖 섹션은 렌더링을 중지하거나 품질을 낮춥니다.
+- 리사이즈, 탭 비활성화, WebGL context loss를 처리합니다.
+- 에셋 URL은 LAN 접속에서도 정상적으로 로드되는 로컬 경로를 우선합니다.
 
 ## 완료 기준
 
-- 데스크톱 전체 랜딩을 시작부터 footer까지 비교한다.
-- 모든 pinned/sticky 구간을 시작·중간·종료 프레임으로 비교한다.
-- 섹션마다 최소 3프레임, 변화가 많은 구간은 1% 간격으로 비교한다.
-- z-index, overlap, mask, sticky handoff가 원본과 동일하게 동작한다.
-- hover, drag, click, slider, accordion, menu 동작을 확인한다.
-- 모바일 전체 페이지를 별도로 비교한다.
-- 콘솔·네트워크 오류가 없다.
-- 프로덕션 빌드와 LAN 주소에서 모두 확인한다.
+- 직접 URL로 새로고침해도 정상 동작합니다.
+- `localhost`와 LAN IP 접속에서 동일하게 보입니다.
+- 브라우저 콘솔에 치명적인 오류가 없습니다.
+- WebGL 모델과 미디어가 외부 CORS 정책에 의존하지 않습니다.
+- 첫 화면뿐 아니라 전체 스크롤 구간을 비교합니다.
+- 주요 뷰포트에서 스크린샷을 저장하고 원본과 비교합니다.
+- 빌드가 성공합니다.
+- 다른 라우트의 기존 동작을 깨뜨리지 않습니다.
 
 ## 필수 미세 보정 규칙
 
-- 사용자가 히어로 한 장면만 지적해도 해당 장면만 수정하고 끝내지 않는다. 전체 랜딩을 다시 캡처해 다른 섹션의 동일 유형 오류를 점검한다.
-- GLB/GLTF는 임의로 bounding-box normalization 하지 않는다. 원본 코드 또는 런타임에서 authored scale 사용 여부를 확인한다.
-- 원본 카메라 FOV, z, target, near/far와 scene/node별 transform을 추출한 뒤 구현한다.
-- 모델이 보이는 것과 원본 크기·위치가 맞는 것은 별개다. 화면 bounds를 픽셀 단위로 비교한다.
-- 전역 scroll percentage만으로 scene range를 추정하지 않는다. 측정한 section bounds와 local progress를 사용한다.
-- 원본/로컬 비교는 같은 viewport, 같은 scrollY, smoothing이 안정된 상태에서 수행한다.
-- Hero, Tunnel, Woman, Clock, Cans, Phone, Lamp, Solutions, Ender를 모두 독립적으로 검증한다.
-- 이전 scene이 다음 section까지 남는지, 여러 model group이 의도치 않게 동시에 보이는지 전체 1% 프레임에서 확인한다.
-- 실제 loop video, shader, clone material, mask가 확인되면 임시 CSS 도형을 최종 구현으로 남기지 않는다.
-- 빌드 성공과 HTTP 200은 기능 확인일 뿐 시각적 완료 조건이 아니다.
+- 모델이 화면에서 10~20%만 달라도 카메라, FOV, 스케일을 다시 조정합니다.
+- 텍스트 줄바꿈이 다르면 폰트 크기만 줄이지 말고 컨테이너 폭과 자간을 함께 조정합니다.
+- 원본이 넓은 파노라마 장면이면 단순한 중앙 오브젝트로 축소하지 않습니다.
+- 인물이나 오브젝트의 원근 관계를 별도 레이어로 재현합니다.
+- 한 장면을 모든 섹션에 반복하지 않습니다.
+- 원본에서 장면이 전환되면 로컬에서도 별도 장면 또는 별도 상태로 구성합니다.
+
+## 로컬 런타임 미러링 규칙
+
+- `.agents/skills/clone-reference-runtime/SKILL.md`를 사용하고 `docs/reference-clone-playbook.md`를 읽습니다.
+- `docs/reference-site-template.md`로 `docs/references/<site-id>.md`를 생성하거나 갱신합니다.
+- iframe은 비교용 R1 기준 화면일 뿐 완료로 보고하지 않습니다.
+- 복잡한 WebGL은 임의로 재창작하기 전에 SSR DOM과 원본 런타임·모듈 그래프를 추출하고 로컬라이징합니다.
+- 히어로 외 모든 섹션, 모델, sticky 범위, stacking context와 상호작용을 검증합니다.
+- 미디어 CDN 연결은 사용자가 허용한 경우 유지할 수 있지만 효과, 셰이더, Worker, 스크롤 타임라인의 실행 코드는 로컬 소스여야 합니다.
+- 일반 `prebuild`에서 원격 미러를 갱신하지 않습니다. 원격 갱신은 명시적인 캡처 명령으로만 수행합니다.
+- 결과 보고 시 R0~R7 단계와 남은 원격 에셋, API, 프록시 및 라이선스 제약을 정확히 밝힙니다.

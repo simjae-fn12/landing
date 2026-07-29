@@ -1,0 +1,4 @@
+interface:
+  display_name: "Clone Reference Runtime"
+  short_description: "Mirror and verify editable local interactive site runtimes"
+  default_prompt: "Clone this reference landing as an editable offline local runtime, preserving its layout, WebGL, assets, and interactions."
