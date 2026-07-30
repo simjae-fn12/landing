@@ -89,6 +89,17 @@ export default function ExecutiveSummary() {
     if (progressRef.current >= 0.8) setIsHovering(true);
   };
 
+  const advanceSummary = () => {
+    const section = sectionRef.current;
+    if (!section) return;
+
+    const end = section.offsetTop + section.offsetHeight - window.innerHeight;
+    window.scrollTo({
+      top: Math.min(end, window.scrollY + window.innerHeight * 0.9),
+      behavior: "smooth",
+    });
+  };
+
   return (
     <section className="executive-summary" ref={sectionRef}>
       <div
@@ -98,9 +109,16 @@ export default function ExecutiveSummary() {
         <div className="executive-summary__light-surface" aria-hidden="true" />
         <p className="executive-summary__label">EXECUTIVE SUMMARY · 2026</p>
 
-        <div className="executive-summary__intro-type" aria-hidden="true">
+        <div className="executive-summary__intro-type">
           <img src="/landing/type-media-pipeline-initial.svg" alt="" />
-          <span>↓</span>
+          <button
+            className="section-scroll-button"
+            type="button"
+            onClick={advanceSummary}
+            aria-label="Executive Summary 전환 진행"
+          >
+            ↓
+          </button>
           <img src="/landing/type-first-trading-initial.svg" alt="" />
         </div>
 

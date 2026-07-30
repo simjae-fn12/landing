@@ -89,6 +89,22 @@ export default function IntelligenceSection() {
     };
   }, []);
 
+  const scrollToNextCard = () => {
+    const nextCard = cardRefs.current.find(
+      (card) => card && card.getBoundingClientRect().top > window.innerHeight * 0.42,
+    );
+
+    if (nextCard) {
+      nextCard.scrollIntoView({ behavior: "smooth", block: "center" });
+      return;
+    }
+
+    sectionRef.current?.nextElementSibling?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+  };
+
   return (
     <section className="intelligence-section" ref={sectionRef}>
       <div className="intelligence-section__outer">
@@ -102,7 +118,14 @@ export default function IntelligenceSection() {
               정답을 대신 제시하기보다 판단에 필요한 정보를 더 명확하게
               전달합니다.
             </p>
-            <span aria-hidden="true">↓</span>
+            <button
+              className="section-scroll-button"
+              type="button"
+              onClick={scrollToNextCard}
+              aria-label="다음 Intelligence 카드로 이동"
+            >
+              ↓
+            </button>
           </div>
         </div>
 
