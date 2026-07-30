@@ -1,67 +1,62 @@
-const concepts = [
-  {
-    number: "01",
-    title: "Living Financial Topology",
-    reference: "Peachweb Creative Marketing",
-    description: "고정 WebGL 캔버스와 스크롤 기반 3D 모델 전환을 적용한 NEXT 증권 B2B 콘셉트.",
-    href: "/concepts/peach"
-  },
-  {
-    number: "02",
-    title: "AI Financial Operator",
-    reference: "Mercury Command",
-    description: "긴 sticky 시퀀스와 파티클 캔버스, 수평 스토리텔링을 결합한 NEXT Command 콘셉트.",
-    href: "/concepts/mercury-command"
-  },
-  {
-    number: "03",
-    title: "Living Financial System",
-    reference: "Sleep Well Creatives",
-    description: "고정 Canvas와 장기 sticky 구간으로 금융 데이터와 AI 판단을 서사적으로 재해석한 콘셉트.",
-    href: "/concepts/sleep-well"
-  },
-  {
-    number: "04",
-    title: "NEXT Everywhere",
-    reference: "Shopify Editions — Spring ’26",
-    description: "실제 MDPC 포인트클라우드, 장면별 모델, 마우스 반응과 에디토리얼 레이아웃을 결합한 금융 Editions.",
-    href: "/concepts/active-theory"
-  },
-  {
-    number: "05",
-    title: "Immersive Financial Journey",
-    reference: "Lusion",
-    description: "실시간 터널, 연속형 모델, 모핑 카드와 스토리라인을 재생성한 NEXT 증권 시네마틱 콘셉트.",
-    href: "/concepts/lusion"
-  }
+import LandingFooter from "./components/LandingFooter";
+import LandingHeader from "./components/LandingHeader";
+import HeroTransition from "./components/HeroTransition";
+import SummarySection from "./components/SummarySection";
+import IntelligenceSection from "./components/IntelligenceSection";
+import ExecutiveSummary from "./components/ExecutiveSummary";
+
+const services = [
+  { number: "01", title: "AI 시장 인사이트", description: "방대한 시장 데이터를 구조화해 중요한 변화와 리스크 신호를 이해하기 쉬운 정보로 제공합니다." },
+  { number: "02", title: "투자 커뮤니티", description: "서로 다른 투자자의 생각과 경험을 연결해 하나의 데이터만으로는 얻기 어려운 관점을 만듭니다." },
+  { number: "03", title: "개인화 콘텐츠", description: "관심 자산과 탐색 흐름에 따라 지금 필요한 정보의 우선순위와 깊이를 조정합니다." },
 ];
 
-export default function ConceptIndex() {
+const principles = ["Media-First", "AI-Native", "Compliance-by-Design", "Headless Architecture"];
+
+export const metadata = {
+  title: "NEXT Securities | AI가 만드는 새로운 투자 경험",
+  description: "데이터와 콘텐츠, 커뮤니티가 연결되는 차세대 금융 투자 플랫폼 NEXT Securities.",
+};
+
+export default function Home() {
   return (
-    <main className="concept-index">
-      <header className="index-header">
-        <a href="/" className="index-logo">NEXT</a>
-        <p>NEXT SECURITIES<br />DESIGN CONCEPTS · 2026</p>
-      </header>
-      <section className="index-hero">
-        <p className="index-kicker">REFERENCE-DRIVEN DESIGN SYSTEM</p>
-        <h1>Five directions.<br />One financial standard.</h1>
-        <p className="index-intro">서로 다른 글로벌 레퍼런스를 독립적인 Next.js 라우트로 구현하고, 하나의 NEXT 증권 메시지를 다양한 시각 언어로 탐색합니다.</p>
+    <main className="landing">
+      <LandingHeader />
+
+      <HeroTransition />
+
+      <SummarySection />
+      <IntelligenceSection />
+      <ExecutiveSummary />
+
+      <section className="landing-services" id="services">
+        <div className="section-heading">
+          <p className="section-label">CONNECTED EXPERIENCE</p>
+          <h2>탐색에서 판단까지, 하나의 흐름으로.</h2>
+        </div>
+        <div className="service-grid">
+          {services.map((service) => (
+            <article className="service-card" key={service.number}>
+              <span>{service.number}</span><h3>{service.title}</h3><p>{service.description}</p>
+            </article>
+          ))}
+        </div>
       </section>
-      <section className="concept-list">
-        {concepts.map(concept => (
-          <a className="concept-card concept-card--active" href={concept.href} key={concept.number}>
-            <span className="concept-number">{concept.number}</span>
-            <div>
-              <p className="concept-reference">{concept.reference}</p>
-              <h2>{concept.title}</h2>
-              <p className="concept-description">{concept.description}</p>
-            </div>
-            <span className="concept-status">VIEW CONCEPT →</span>
-          </a>
-        ))}
+
+      <section className="landing-technology" id="technology">
+        <div><p className="section-label">BUILT DIFFERENT</p><h2>금융 경험을 처음부터 다시 설계합니다.</h2></div>
+        <div className="principle-list">
+          {principles.map((principle, index) => <div key={principle}><span>0{index + 1}</span><strong>{principle}</strong></div>)}
+        </div>
       </section>
-      <footer className="index-footer"><span>© 2026 NEXT SECURITIES</span><span>5 CONCEPT ROUTES</span></footer>
+
+      <section className="landing-contact" id="contact">
+        <p className="section-label">THE NEXT STANDARD</p>
+        <h2>투자의 다음을,<br />함께.</h2>
+        <a className="primary-cta primary-cta--light" href="mailto:recruit@nextsecurities.com">NEXT 시작하기 <span aria-hidden="true">↗</span></a>
+      </section>
+
+      <LandingFooter />
     </main>
   );
 }
