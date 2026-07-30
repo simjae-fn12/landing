@@ -33,7 +33,7 @@ export default function LandingHeader() {
 
   return (
     <header className="landing-nav" ref={headerRef}>
-      <a className="landing-logo" href="/" aria-label="NEXT Securities 홈">
+      <a className="landing-logo" href="/option-a" aria-label="NEXT Securities A안 메인 포탈">
         <img src="/landing/logo.svg" alt="Next Securities" />
       </a>
 

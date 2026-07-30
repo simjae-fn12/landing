@@ -15,7 +15,7 @@ export default function TradingHeader() {
 
       <div className="trading-header__actions">
         <a href="/trading" lang="en">EN</a>
-        <a href="/">Main Portal</a>
+        <a href="/option-a">Main Portal</a>
       </div>
     </header>
   );

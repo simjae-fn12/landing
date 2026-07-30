@@ -1,33 +1,89 @@
-import LandingFooter from "./components/LandingFooter";
-import LandingHeader from "./components/LandingHeader";
-import HeroTransition from "./components/HeroTransition";
-import SummarySection from "./components/SummarySection";
-import IntelligenceSection from "./components/IntelligenceSection";
-import ExecutiveSummary from "./components/ExecutiveSummary";
-import CapabilitiesSection from "./components/CapabilitiesSection";
-import ClosingVisionSection from "./components/ClosingVisionSection";
-import LandingCursor from "./components/LandingCursor";
+const options = [
+  {
+    id: "A",
+    status: "READY",
+    title: "Connected\nPortal System",
+    description: "브랜드 메인 포탈과 정보형 트레이딩 포탈을 하나의 디자인 시스템으로 연결한 A안입니다.",
+    className: "proposal-card--a",
+    links: [
+      { label: "Main Portal", href: "/option-a" },
+      { label: "Trading Portal", href: "/trading" },
+    ],
+  },
+  {
+    id: "B",
+    status: "IN PROGRESS",
+    title: "Alternative\nDirection",
+    description: "두 번째 브랜드 방향은 현재 준비 중입니다.",
+    className: "proposal-card--b",
+    links: [],
+  },
+  {
+    id: "C",
+    status: "CONCEPT LAB",
+    title: "Experimental\nConcepts",
+    description: "초기 기술 레퍼런스와 인터랙션 실험을 모아둔 컨셉 아카이브입니다.",
+    className: "proposal-card--c",
+    links: [{ label: "Explore Concepts", href: "/concepts" }],
+  },
+];
 
 export const metadata = {
-  title: "NEXT Securities | AI가 만드는 새로운 투자 경험",
-  description: "데이터와 콘텐츠, 커뮤니티가 연결되는 차세대 금융 투자 플랫폼 NEXT Securities.",
+  title: "NEXT Securities — Design Proposals",
+  description: "NEXT Securities 디지털 포탈 디자인 시안 선택",
 };
 
-export default function Home() {
+export default function ProposalIndexPage() {
   return (
-    <main className="landing">
-      <LandingHeader />
-      <LandingCursor />
+    <main className="proposal-index">
+      <header className="proposal-index__header">
+        <p>NEXT SECURITIES · DIGITAL EXPERIENCE</p>
+        <span>DESIGN PROPOSALS · 2026</span>
+      </header>
 
-      <HeroTransition />
+      <section className="proposal-index__intro">
+        <p>SELECT A DIRECTION</p>
+        <h1>
+          A new standard for
+          <br />
+          financial experience.
+        </h1>
+        <div>
+          <span>세 가지 방향 중 확인할 시안을 선택해 주세요.</span>
+          <strong>01 / 03</strong>
+        </div>
+      </section>
 
-      <SummarySection />
-      <IntelligenceSection />
-      <ExecutiveSummary />
-      <CapabilitiesSection />
-      <ClosingVisionSection />
+      <section className="proposal-grid" aria-label="디자인 시안 목록">
+        {options.map((option) => (
+          <article className={`proposal-card ${option.className}`} key={option.id}>
+            <div className="proposal-card__visual" aria-hidden="true">
+              <span>{option.id}</span>
+              <i />
+            </div>
+            <div className="proposal-card__meta">
+              <span>OPTION {option.id}</span>
+              <strong>{option.status}</strong>
+            </div>
+            <h2>
+              {option.title.split("\n").map((line) => <span key={line}>{line}</span>)}
+            </h2>
+            <p>{option.description}</p>
+            <div className="proposal-card__links">
+              {option.links.length > 0 ? option.links.map((link) => (
+                <a href={link.href} key={link.href}>
+                  {link.label}<span aria-hidden="true">↗</span>
+                </a>
+              )) : <span>Coming Soon</span>}
+            </div>
+          </article>
+        ))}
+      </section>
 
-      <LandingFooter />
+      <footer className="proposal-index__footer">
+        <span>Prepared for presentation</span>
+        <span>© 2026 NEXT Securities</span>
+      </footer>
     </main>
   );
 }
