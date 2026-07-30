@@ -86,8 +86,10 @@ export default function HeroTransition() {
               key={scene.key}
               aria-hidden={activeScene !== index}
             >
-              <div className="hero-scene__image" />
-              <div className="hero-scene__shade" />
+              <div className="hero-scene__visual">
+                <div className="hero-scene__image" />
+                <div className="hero-scene__shade" />
+              </div>
               <div className="hero-scene__content">
                 <p className="eyebrow">{scene.eyebrow}</p>
                 {index === 0 ? <h1>{scene.title}</h1> : <h2>{scene.title}</h2>}

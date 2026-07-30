@@ -109,16 +109,19 @@ export default function ExecutiveSummary() {
         <div className="executive-summary__light-surface" aria-hidden="true" />
         <p className="executive-summary__label">EXECUTIVE SUMMARY · 2026</p>
 
-        <div className="executive-summary__intro-type">
+        <div
+          className="executive-summary__intro-type"
+          data-scroll-cursor="down"
+          onClick={advanceSummary}
+          onKeyDown={(event) => {
+            if (event.key === "Enter" || event.key === " ") advanceSummary();
+          }}
+          role="button"
+          tabIndex={0}
+          aria-label="Executive Summary 전환 진행"
+        >
           <img src="/landing/type-media-pipeline-initial.svg" alt="" />
-          <button
-            className="section-scroll-button"
-            type="button"
-            onClick={advanceSummary}
-            aria-label="Executive Summary 전환 진행"
-          >
-            ↓
-          </button>
+          <i aria-hidden="true" />
           <img src="/landing/type-first-trading-initial.svg" alt="" />
         </div>
 

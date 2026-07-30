@@ -109,7 +109,16 @@ export default function IntelligenceSection() {
     <section className="intelligence-section" ref={sectionRef}>
       <div className="intelligence-section__outer">
         <div className="intelligence-section__intro">
-          <div>
+          <div
+            data-scroll-cursor="down"
+            onClick={scrollToNextCard}
+            onKeyDown={(event) => {
+              if (event.key === "Enter" || event.key === " ") scrollToNextCard();
+            }}
+            role="button"
+            tabIndex={0}
+            aria-label="다음 Intelligence 카드로 이동"
+          >
             <p className="section-label">AI-NATIVE PLATFORM</p>
             <h2>AI-Native<br />Intelligence Engine</h2>
             <p>
@@ -118,14 +127,6 @@ export default function IntelligenceSection() {
               정답을 대신 제시하기보다 판단에 필요한 정보를 더 명확하게
               전달합니다.
             </p>
-            <button
-              className="section-scroll-button"
-              type="button"
-              onClick={scrollToNextCard}
-              aria-label="다음 Intelligence 카드로 이동"
-            >
-              ↓
-            </button>
           </div>
         </div>
 

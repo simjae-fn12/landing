@@ -6,6 +6,7 @@ import IntelligenceSection from "./components/IntelligenceSection";
 import ExecutiveSummary from "./components/ExecutiveSummary";
 import CapabilitiesSection from "./components/CapabilitiesSection";
 import ClosingVisionSection from "./components/ClosingVisionSection";
+import LandingCursor from "./components/LandingCursor";
 
 export const metadata = {
   title: "NEXT Securities | AI가 만드는 새로운 투자 경험",
@@ -16,6 +17,7 @@ export default function Home() {
   return (
     <main className="landing">
       <LandingHeader />
+      <LandingCursor />
 
       <HeroTransition />
 
