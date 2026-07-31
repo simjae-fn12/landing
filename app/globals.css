@@ -451,6 +451,50 @@ a{color:inherit;text-decoration:none}
   .proposal-card h2{font-size:44px}
   .proposal-index__footer{height:80px}
 }
+@media(max-width:480px){
+  .landing-nav{height:60px;padding-left:14px}
+  .landing-nav>.landing-logo img{width:118px}
+  .nav-cta{min-width:108px;padding-inline:12px;font-size:11px}
+  .hero-transition{height:420dvh}
+  .hero-transition__sticky{height:100dvh}
+  .hero-scene__image{inset:-36px}
+  .hero-scene__shade{background:linear-gradient(180deg,rgba(3,10,14,.12),rgba(3,10,14,.6) 74%,rgba(3,10,14,.75))}
+  .hero-scene__content{left:16px;right:16px;top:55%}
+  .hero-scene h1,.hero-scene h2{max-width:100%;margin-bottom:20px;font-size:clamp(38px,12vw,52px);line-height:1.02}
+  .hero-scene__content>p:last-child{max-width:92%;font-size:14px;line-height:1.45}
+  .hero-transition__footer{left:16px;right:16px;bottom:18px;grid-template-columns:1fr auto;gap:12px;font-size:10px}
+  .hero-transition__footer>span:first-child{display:none}
+  .summary-section{padding-inline:16px}
+  .summary-section__header{height:64px}
+  .summary-section__statement{font-size:23px;line-height:1.4}
+  .summary-section__statement p{padding-top:42px}
+  .summary-section__news{grid-template-columns:1fr;gap:12px}
+  .intelligence-section{height:220dvh}
+  .intelligence-section__outer{height:100dvh;padding:4.25rem 16px 16px}
+  .intelligence-section__intro{padding-bottom:1rem}
+  .intelligence-section__intro h2{margin:.65rem 0 1rem;font-size:36px}
+  .intelligence-card{width:calc(100vw - 48px)}
+  .executive-summary{height:190dvh}
+  .executive-summary__sticky{height:100dvh}
+  .executive-summary__intro-type{top:61%}
+  .executive-summary__track figure{min-width:76px;min-height:112px}
+  .executive-summary__copy{bottom:18px}
+  .capability-row{min-height:640px}
+  .capability-row__badge{margin-top:18px}
+  .capability-row__content{padding:26px 0 258px}
+  .capability-row__content h2,.capability-row__content>p{margin-right:0}
+  .capability-row__content>p{margin-top:18px}
+  .capability-row__content footer{grid-template-columns:1fr auto;gap:8px;font-size:9px}
+  .capability-row__content footer>*:nth-child(2){display:none}
+  .capability-row__preview{right:0;bottom:22px;width:100%;height:220px}
+  .strengths-section{padding:72px 12px}
+  .strengths-section>header{padding-inline:12px;margin-bottom:42px}
+  .strength-card,.strength-card.is-active{padding:20px 12px}
+  .strength-card h3{min-height:0;font-size:28px}
+  .closing-vision{height:68dvh;min-height:500px}
+  .closing-vision__content h2{font-size:36px}
+  .landing-footer__columns{grid-template-columns:1fr 1fr;padding-bottom:64px}
+}
 @media(prefers-reduced-motion:reduce){
   .hero-scene__image{transform:none}
   .hero-scene__content{transition-duration:.01ms}
