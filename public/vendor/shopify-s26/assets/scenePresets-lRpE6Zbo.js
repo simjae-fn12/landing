@@ -1,0 +1,2 @@
+var e=`/editions/spring2026/api/scene-presets`;async function t(){let t=await fetch(e),n=await t.json();if(!t.ok||`error`in n)throw Error(`error`in n?n.error:`HTTP ${t.status}`);return n.presets}async function n(e,t){return await r(`POST`,{name:e,data:t})}async function r(t,n){let r=await fetch(e,{method:t,headers:{"content-type":`application/json`},body:JSON.stringify(n)}),i=await r.json();if(!r.ok||`error`in i)throw Error(`error`in i?i.error:`HTTP ${r.status}`);return i.preset}export{t as n,n as t};
+//# sourceMappingURL=scenePresets-lRpE6Zbo.js.map

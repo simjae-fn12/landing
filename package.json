@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "mirror:shopify": "node scripts/mirror-shopify-s26.mjs",
-    "verify:shopify": "node scripts/verify-shopify-mirror.mjs"
+    "verify:shopify": "node scripts/verify-shopify-mirror.mjs",
+    "verify:shopify:runtime": "node scripts/verify-shopify-runtime.mjs",
+    "prepare:option-b": "node scripts/prepare-option-b-reference.mjs"
   },
   "dependencies": {
     "next": "16.2.12",

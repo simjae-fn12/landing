@@ -12,11 +12,11 @@ const options = [
   },
   {
     id: "B",
-    status: "IN PROGRESS",
-    title: "Alternative\nDirection",
-    description: "두 번째 브랜드 방향은 현재 준비 중입니다.",
+    status: "READY",
+    title: "AI Creative\nMarketing",
+    description: "AI 기반 캠페인 자동화와 크리에이티브 인텔리전스를 몰입형 WebGL 경험으로 구성한 B안입니다.",
     className: "proposal-card--b",
-    links: [],
+    links: [{ label: "Explore Option B", href: "/option-b" }],
   },
   {
     id: "C",

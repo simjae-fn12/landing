@@ -1,0 +1,1 @@
+/* analytics disabled in the offline mirror */

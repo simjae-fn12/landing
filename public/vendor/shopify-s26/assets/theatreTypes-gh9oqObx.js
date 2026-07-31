@@ -1,0 +1,2 @@
+import{t as e}from"./dist-4Ign8GoJ.js";var t=e(),n=e=>({x:e[0],y:e[1],z:e[2]}),r=e=>[e.x,e.y,e.z],i=e=>Object.fromEntries(e.map(e=>[e,e])),a=(e,n={})=>t.types.compound({x:t.types.number(e[0],n),y:t.types.number(e[1],n),z:t.types.number(e[2],n)}),o=(e,n)=>({simSize:t.types.number(e,{range:[16,512],nudgeMultiplier:16,label:`sim texture size`}),dyeSize:t.types.number(n,{range:[16,512],nudgeMultiplier:16,label:`dye texture size`})});export{a,n as i,i as n,r,o as t};
+//# sourceMappingURL=theatreTypes-gh9oqObx.js.map

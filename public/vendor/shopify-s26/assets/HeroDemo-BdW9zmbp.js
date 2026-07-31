@@ -1,0 +1,2 @@
+import{t as e}from"./jsx-runtime-DKdBMi_L.js";import{HeroRingSceneContent as t,useHeroRingDemoValuesFromSheet as n}from"./HeroRingDemo-CRcfiphU.js";import r from"./SectionSceneDemo-lHYGOyMo.js";var i=e(),a=.04;function o({sheet:e}){let{controls:r,transform:o,sdf:s,debug:c,play:l,timeMs:u}=n(e);return(0,i.jsx)(t,{controls:r,transform:o,sdf:s,debug:c,scrubMs:l?null:u,frameScale:a})}function s(){return(0,i.jsx)(r,{subSceneContent:e=>(0,i.jsx)(o,{sheet:e})})}export{s as default};
+//# sourceMappingURL=HeroDemo-BdW9zmbp.js.map
