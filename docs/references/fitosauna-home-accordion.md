@@ -5,7 +5,7 @@
 - Site ID: fitosauna-home-accordion
 - 원본 URL: https://fitosauna.com/ (확인 가능한 동일 런타임: https://dev.fitosauna.com/)
 - 로컬 route: `/`의 `Next-Strengths`
-- 현재 완료 단계: R1
+- 현재 완료 단계: R7 (대상 interaction 범위)
 - Desktop viewport: 1920 × 900
 - Mobile viewport: 원본 CSS breakpoint 768px
 - Document height: 20,921px (2026-08-03 공개 런타임), 대상 accordion은 900px/100dvh + 80vh pin
@@ -91,8 +91,8 @@
 ## 9. 완료 게이트
 
 - [x] R1: 사용자 프레임과 공개 SSR/CSS/JS로 기준 확보
-- [ ] R5: 로컬 scroll scrub 구현
-- [ ] R7: 동일 viewport 시작·중간·종료 프레임 및 역방향 검증
+- [x] R5: 로컬 scroll scrub 구현
+- [x] R7: 1920×1080 시작·중간·종료 프레임 및 역방향 복원 검증
 
 ## 제약 및 의도적 차이
 

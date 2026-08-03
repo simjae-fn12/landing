@@ -1,6 +1,6 @@
 export default function LandingFooter() {
   return (
-    <footer className="landing-footer" id="contact">
+    <footer className="landing-footer" id="contact" data-scroll-cursor="down">
       <div className="landing-footer__brand">
         <a className="landing-logo" href="/option-a">
           <img src="/landing/logo.svg" alt="Next Securities" />

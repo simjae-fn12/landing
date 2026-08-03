@@ -7,19 +7,19 @@ const cards = [
     image: "/landing/summary-compliance-first.png",
     title: "Compliance-First Curation",
     label: "Compliance-by-Design: AI-Powered Regulatory Excellence",
-    description: "내부 준법 기준을 반영해 시장 데이터를 정제하고, 정보의 출처와 기준 시점을 함께 전달합니다.",
+    description: "금소법 테두리 안에서 검증된 시장 데이터만을 정제합니다. 법적 가이드라인을 완벽히 준수한 안전한 정보만을 전달합니다.",
   },
   {
     image: "/landing/summary-disclosure.png",
     title: "Zero-Friction Disclosure Analysis",
     label: "Automated Public Filing Processing & Real-time Summarization",
-    description: "복잡한 공시 자료를 구조화해 투자자가 핵심 정보와 관련 위험 요인을 빠르게 탐색하도록 돕습니다.",
+    description: "수십 페이지의 어렵고 복잡한 공시 자료를 AI 백엔드가 실시간으로 추적·요약합니다. 투자자가 직접 정보를 찾고 분석하는 수고를 줄입니다.",
   },
   {
     image: "/landing/summary-personalization.png",
-    title: "Personalized Information Discovery",
-    label: "Data-Driven Personalization & Risk Information",
-    description: "사용자의 관심 자산과 탐색 흐름에 따라 필요한 정보의 우선순위와 깊이를 조정합니다.",
+    title: "Compliance",
+    label: "Hyper-Personalized Trading Signal & Risk Management Engine",
+    description: "초보부터 고액 투자자까지 유저 개개인의 매매 스타일과 가용성을 정밀 분석합니다. 최적화된 리스크 관리 신호를 큐레이션합니다.",
   },
 ];
 
@@ -54,22 +54,44 @@ export default function IntelligenceSection() {
           setActiveCard(nextCard);
         }
 
-        cardRefs.current.forEach((card) => {
+        cardRefs.current.forEach((card, index) => {
           card?.style.setProperty("--card-reveal", "1");
           card?.style.setProperty("--card-travel", "0");
+          card?.style.setProperty("--card-stage-reveal", "1");
+          card?.style.setProperty("--card-line-progress", index <= nextCard ? "1" : "0");
         });
         return;
       }
 
+      const section = sectionRef.current;
+      if (!section) return;
+
       if (cardsRef.current) cardsRef.current.style.transform = "";
 
-      cardRefs.current.forEach((card) => {
+      const clamp = (value) => Math.min(1, Math.max(0, value));
+      const scrollDistance = Math.max(1, section.offsetHeight - viewportHeight);
+      const sectionProgress = clamp(-section.getBoundingClientRect().top / scrollDistance);
+      const stagedProgress = sectionProgress * cards.length;
+      const nextCard = Math.min(cards.length - 1, Math.floor(stagedProgress));
+      const localProgress = nextCard === cards.length - 1 && sectionProgress === 1
+        ? 1
+        : clamp(stagedProgress - nextCard);
+
+      if (nextCard !== activeRef.current) {
+        activeRef.current = nextCard;
+        setActiveCard(nextCard);
+      }
+
+      cardRefs.current.forEach((card, index) => {
         if (!card) return;
-        const bounds = card.getBoundingClientRect();
-        const reveal = Math.min(1, Math.max(0, (viewportHeight * 0.85 - bounds.top) / (viewportHeight * 0.25)));
-        const travel = Math.min(1, Math.max(0, (viewportHeight - bounds.top) / (viewportHeight + bounds.height)));
-        card.style.setProperty("--card-reveal", reveal.toFixed(4));
-        card.style.setProperty("--card-travel", travel.toFixed(4));
+        const isActive = index === nextCard;
+        const isComplete = index < nextCard;
+        const lineProgress = isComplete ? 1 : isActive ? localProgress : 0;
+
+        card.style.setProperty("--card-line-progress", lineProgress.toFixed(4));
+        card.style.setProperty("--card-stage-reveal", isActive ? "1" : "0");
+        card.style.setProperty("--card-reveal", isActive ? "1" : "0");
+        card.style.setProperty("--card-travel", "0");
       });
     };
 
@@ -106,10 +128,9 @@ export default function IntelligenceSection() {
   };
 
   return (
-    <section className="intelligence-section" ref={sectionRef}>
+    <section className="intelligence-section" ref={sectionRef} data-scroll-cursor="down">
       <header className="summary-section__header intelligence-section__header">
         <p>STRENGTHS AND KEY ADVANTAGES</p>
-        <span>Recent News ↓</span>
       </header>
 
       <div className="intelligence-section__outer">
@@ -124,13 +145,12 @@ export default function IntelligenceSection() {
             tabIndex={0}
             aria-label="다음 Intelligence 카드로 이동"
           >
-            <p className="section-label">AI-NATIVE PLATFORM</p>
             <h2>AI-Native<br />Intelligence Engine</h2>
-            <p>
-              복잡한 공시를 직접 분석하는 수고를 줄이고, 시장 데이터와 탐색
-              패턴을 준법 기준 안에서 구조화합니다. NEXT의 AI 데이터 레이어는
-              정답을 대신 제시하기보다 판단에 필요한 정보를 더 명확하게
-              전달합니다.
+            <p className="intelligence-section__description">
+              투자자가 직접 복잡한 공시 분석을 최소화하고,<br />
+              AI 백엔드가 준법 가이드라인 안에서 시장 데이터와<br />
+              매매 패턴을 추적해 검증된 인사이트만을 큐레이션하는<br />
+              AI-Native 플랫폼 아키텍처로 명확히 정의합니다.
             </p>
           </div>
         </div>
@@ -151,6 +171,7 @@ export default function IntelligenceSection() {
                 className="intelligence-card"
                 key={card.title}
                 ref={(element) => { cardRefs.current[index] = element; }}
+                aria-hidden={activeCard !== index}
               >
                 <div className="intelligence-card__image">
                   <img src={card.image} alt="" />

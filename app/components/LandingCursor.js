@@ -32,7 +32,7 @@ export default function LandingCursor() {
     const render = () => {
       current.x += (target.x - current.x) * 0.16;
       current.y += (target.y - current.y) * 0.16;
-      cursor.style.transform = `translate3d(${current.x - 32}px, ${current.y - 32}px, 0)`;
+      cursor.style.transform = `translate3d(${current.x}px, ${current.y}px, 0) translate(-50%, -50%)`;
       frame = requestAnimationFrame(render);
     };
 
@@ -49,8 +49,10 @@ export default function LandingCursor() {
 
   return (
     <div className="landing-scroll-cursor" ref={cursorRef} aria-hidden="true">
-      ↓
-      <small>SCROLL</small>
+      <svg viewBox="0 0 194 194" role="presentation">
+        <circle cx="97" cy="97" r="97" />
+        <path d="M96 54V141M60 106L96 142L132 106" />
+      </svg>
     </div>
   );
 }

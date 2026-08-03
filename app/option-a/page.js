@@ -20,7 +20,7 @@ export default function OptionAPage() {
       <LandingCursor />
       <HeroTransition />
       <ExecutiveSummary />
-      <div className="executive-summary-gap" aria-hidden="true" />
+      <div className="executive-summary-gap" data-scroll-cursor="down" aria-hidden="true" />
       <SummarySection />
       <CapabilitiesSection>
         <IntelligenceSection />
