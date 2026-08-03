@@ -19,10 +19,12 @@ export default function OptionAPage() {
       <LandingHeader />
       <LandingCursor />
       <HeroTransition />
-      <SummarySection />
-      <IntelligenceSection />
       <ExecutiveSummary />
-      <CapabilitiesSection />
+      <div className="executive-summary-gap" aria-hidden="true" />
+      <SummarySection />
+      <CapabilitiesSection>
+        <IntelligenceSection />
+      </CapabilitiesSection>
       <ClosingVisionSection />
       <LandingFooter />
     </main>

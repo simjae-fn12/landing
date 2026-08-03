@@ -107,6 +107,11 @@ export default function IntelligenceSection() {
 
   return (
     <section className="intelligence-section" ref={sectionRef}>
+      <header className="summary-section__header intelligence-section__header">
+        <p>STRENGTHS AND KEY ADVANTAGES</p>
+        <span>Recent News ↓</span>
+      </header>
+
       <div className="intelligence-section__outer">
         <div className="intelligence-section__intro">
           <div
