@@ -1,6 +1,13 @@
+"use client";
+
+import { usePathname } from "next/navigation";
+
 export default function TradingHeader() {
+  const pathname = usePathname();
+  const isSearchPage = pathname === "/trading" || pathname === "/trading/";
+
   return (
-    <header className="trading-header">
+    <header className={`trading-header${isSearchPage ? " trading-header--transparent" : ""}`}>
       <a className="trading-header__logo" href="/trading" aria-label="NEXT Securities Trading Portal">
         <img src="/landing/logo.svg" alt="Next Securities" />
       </a>

@@ -20,6 +20,12 @@ export default function LandingHeader() {
       const delta = scrollY - lastScrollY;
       const heroRect = hero.getBoundingClientRect();
       const isInsideHero = heroRect.bottom > 0;
+      const probeY = Math.min(header.offsetHeight / 2, window.innerHeight - 1);
+      const themeSurface = [...document.querySelectorAll("[data-nav-theme]")].find((surface) => {
+        const rect = surface.getBoundingClientRect();
+        return rect.top <= probeY && rect.bottom > probeY;
+      });
+      const isLightTheme = themeSurface?.dataset.navTheme === "light";
 
       if (isInsideHero) {
         header.classList.remove("is-hidden");
@@ -45,7 +51,8 @@ export default function LandingHeader() {
 
       lastScrollY = scrollY;
       header.classList.toggle("is-hero", isInsideHero);
-      header.classList.toggle("is-light", heroRect.bottom <= 84);
+      header.classList.toggle("is-light", isLightTheme);
+      header.classList.toggle("is-dark", !isLightTheme);
     };
 
     const queueUpdate = () => {

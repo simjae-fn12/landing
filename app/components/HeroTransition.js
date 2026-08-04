@@ -5,19 +5,16 @@ import { useEffect, useRef, useState } from "react";
 const scenes = [
   {
     key: "cloud",
-    eyebrow: "NEXT-GEN ARCHITECTURE · 01",
     title: ["Cloud-Native Agility for", "Frictionless Capital Growth"],
     description: "레거시 부담을 최소화한 클라우드 아키텍처 기반의 유연한 자산 경험",
   },
   {
     key: "compliance",
-    eyebrow: "COMPLIANCE-BY-DESIGN · 02",
     title: ["Compliance-by-Design:", "AI-Powered Regulatory Excellence"],
     description: "복잡한 금융 규제를 설계 단계부터 반영하는 AI 기반 준법 지원 시스템",
   },
   {
     key: "intelligence",
-    eyebrow: "DATA INTELLIGENCE · 03",
     title: ["Precision Intelligence", "Data-Driven Hyper"],
     description: "빅데이터 인프라를 통한 정밀한 시장 신호 분석 및 리스크 정보",
   },
@@ -111,7 +108,7 @@ export default function HeroTransition() {
   }, []);
 
   return (
-    <section className="hero-transition" ref={rootRef} aria-label="NEXT 핵심 기술">
+    <section className="hero-transition" ref={rootRef} aria-label="NEXT 핵심 기술" data-nav-theme="dark">
       <div className="hero-transition__sticky" ref={frameRef}>
         <div className="hero-transition__scenes">
           {scenes.map((scene, index) => (
@@ -124,7 +121,6 @@ export default function HeroTransition() {
                 <div className="hero-scene__image" />
               </div>
               <div className="hero-scene__content">
-                <p className="eyebrow">{scene.eyebrow}</p>
                 <HeroTitle as={index === 0 ? "h1" : "h2"} lines={scene.title} />
                 <p>{scene.description}</p>
               </div>

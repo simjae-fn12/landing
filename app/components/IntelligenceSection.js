@@ -128,9 +128,9 @@ export default function IntelligenceSection() {
   };
 
   return (
-    <section className="intelligence-section" ref={sectionRef} data-scroll-cursor="down">
+    <section className="intelligence-section" ref={sectionRef} data-scroll-cursor="down" data-nav-theme="light">
       <header className="summary-section__header intelligence-section__header">
-        <p>STRENGTHS AND KEY ADVANTAGES</p>
+        <p>DATA &amp; INTELLIGENCE PLATFORM</p>
       </header>
 
       <div className="intelligence-section__outer">
@@ -147,9 +147,9 @@ export default function IntelligenceSection() {
           >
             <h2>AI-Native<br />Intelligence Engine</h2>
             <p className="intelligence-section__description">
-              투자자가 직접 복잡한 공시 분석을 최소화하고,<br />
-              AI 백엔드가 준법 가이드라인 안에서 시장 데이터와<br />
-              매매 패턴을 추적해 검증된 인사이트만을 큐레이션하는<br />
+              투자자가 직접 복잡한 공시 분석을 최소화하고,
+              AI 백엔드가 준법 가이드라인 안에서 시장 데이터와
+              매매 패턴을 추적해 검증된 인사이트만을 큐레이션하는
               AI-Native 플랫폼 아키텍처로 명확히 정의합니다.
             </p>
           </div>

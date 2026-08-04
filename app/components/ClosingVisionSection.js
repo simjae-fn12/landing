@@ -28,7 +28,7 @@ export default function ClosingVisionSection() {
   }, []);
 
   return (
-    <section className="closing-vision" ref={sectionRef}>
+    <section className="closing-vision" ref={sectionRef} data-nav-theme="dark">
       <div className="closing-vision__media" aria-hidden="true">
         <img src="/landing/closing-desert.png" alt="" />
       </div>

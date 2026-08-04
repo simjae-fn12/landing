@@ -89,14 +89,18 @@ export default function ExecutiveSummary() {
       // First / Trading completes at 80%. Hold the combined title before the
       // supporting line begins its reveal at 86%.
       const insightProgress = Math.min(1, Math.max(0, (progress - 0.86) / 0.14));
-      const slotBounds = slot.getBoundingClientRect();
-      const targetWidth = slotBounds.width;
-      const targetHeight = slotBounds.height;
+      // Resolve the final, untransformed slot coordinates from layout offsets.
+      // getBoundingClientRect() includes the title's entrance translation and
+      // previously made the video window settle 200px below the headline.
+      const targetWidth = slot.offsetWidth;
+      const targetHeight = slot.offsetHeight;
       const scaleX = 1 + (targetWidth / window.innerWidth - 1) * easedPinProgress;
       const scaleY = 1 + (targetHeight / window.innerHeight - 1) * easedPinProgress;
       const stickyBounds = sticky.getBoundingClientRect();
-      const typeBounds = first.closest(".executive-summary__type")?.getBoundingClientRect();
-      const typeOffsetX = typeBounds ? typeBounds.left - stickyBounds.left : 0;
+      const type = first.closest(".executive-summary__type");
+      if (!type) return;
+      const typeBounds = type.getBoundingClientRect();
+      const typeOffsetX = typeBounds.left - stickyBounds.left;
       const rightGutter = Math.max(18, typeOffsetX);
       const firstFinalX = typeOffsetX + first.offsetLeft;
       const tradingFinalX = typeOffsetX + trading.offsetLeft;
@@ -104,8 +108,10 @@ export default function ExecutiveSummary() {
       const tradingInitialX = stickyBounds.width - rightGutter - trading.offsetWidth;
       const firstTravel = Math.max(0, firstInitialX - firstFinalX);
       const tradingTravel = Math.max(0, tradingInitialX - tradingFinalX);
-      const slotCenterX = slotBounds.left - stickyBounds.left + slotBounds.width * 0.5;
-      const slotCenterY = slotBounds.top - stickyBounds.top + slotBounds.height * 0.5;
+      const slotCenterX = typeOffsetX + slot.offsetLeft + targetWidth * 0.5;
+      const slotCenterY = type.offsetTop
+        + slot.offsetTop
+        + targetHeight * 0.5;
       const stageCenterX = stickyBounds.width * 0.5;
       const stageCenterY = stickyBounds.height * 0.5;
       const translateX = (slotCenterX - stageCenterX) * easedPinProgress;
@@ -235,14 +241,14 @@ export default function ExecutiveSummary() {
   };
 
   return (
-    <section className="executive-summary" ref={sectionRef}>
+    <section className="executive-summary" ref={sectionRef} data-nav-theme="light">
       <div
         className={`executive-summary__sticky${isHovering ? " is-hovering" : ""}`}
         ref={stickyRef}
       >
         <div className="executive-summary__light-surface" aria-hidden="true" />
         <header className="executive-summary__header">
-          <p>STRENGTHS AND KEY ADVANTAGES</p>
+          <p>EXECUTIVE SUMMARY</p>
         </header>
 
         <div className="executive-summary__cursor" ref={cursorRef} aria-hidden="true">
