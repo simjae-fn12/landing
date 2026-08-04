@@ -279,7 +279,6 @@ export default function CapabilitiesSection({ children }) {
             <p className="strengths-section__kicker">GLOBAL TECHNOLOGY FOUNDATION</p>
             <div className="strengths-section__intro">
               <h2><span>Next-</span><span>Strengths</span></h2>
-              <p>싱가포르 및 미국 법인을 중심으로 글로벌 AI/IT 탑 탤런트를 선제적으로 확보합니다. 선진 핀테크 규제 샌드박스를 기민하게 접목하여 독보적인 글로벌 네트워크와 테크 리더십을 구축합니다.</p>
             </div>
           </header>
           <div className="strength-grid">

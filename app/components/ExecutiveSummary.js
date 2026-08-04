@@ -64,6 +64,7 @@ export default function ExecutiveSummary() {
   useLayoutEffect(() => {
     let frame;
     let cursorFrame;
+    let cursorRevealFrame;
     const cursorTarget = { x: -120, y: -120 };
     const cursorCurrent = { x: -120, y: -120 };
 
@@ -199,11 +200,24 @@ export default function ExecutiveSummary() {
       cursorTarget.y = event.clientY;
     };
 
-    const showCursor = () => {
-      cursorRef.current?.classList.add("is-visible");
+    const showCursor = (event) => {
+      const cursor = cursorRef.current;
+      if (!cursor) return;
+
+      cursorTarget.x = event.clientX;
+      cursorTarget.y = event.clientY;
+      cursorCurrent.x = event.clientX;
+      cursorCurrent.y = event.clientY;
+      cursor.style.transform = `translate3d(${event.clientX}px, ${event.clientY}px, 0) translate(-50%, -50%)`;
+
+      cancelAnimationFrame(cursorRevealFrame);
+      cursorRevealFrame = requestAnimationFrame(() => {
+        cursor.classList.add("is-visible");
+      });
     };
 
     const resetPointer = () => {
+      cancelAnimationFrame(cursorRevealFrame);
       cursorRef.current?.classList.remove("is-visible");
     };
 
@@ -228,6 +242,7 @@ export default function ExecutiveSummary() {
     return () => {
       cancelAnimationFrame(frame);
       cancelAnimationFrame(cursorFrame);
+      cancelAnimationFrame(cursorRevealFrame);
       window.removeEventListener("scroll", queueUpdate);
       window.removeEventListener("resize", queueUpdate);
       stickyRef.current?.removeEventListener("pointerenter", showCursor);

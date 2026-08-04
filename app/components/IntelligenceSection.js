@@ -32,10 +32,50 @@ export default function IntelligenceSection() {
 
   useEffect(() => {
     let frame;
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     const update = () => {
       const viewportHeight = window.innerHeight;
       const isMobile = window.innerWidth <= 800;
+      const clamp = (value) => Math.min(1, Math.max(0, value));
+      const easeOutCubic = (value) => 1 - Math.pow(1 - clamp(value), 3);
+      const phaseProgress = (progress, start, end) => (
+        easeOutCubic((progress - start) / Math.max(end - start, 0.001))
+      );
+
+      const setCardStage = (card, index, currentIndex, localProgress) => {
+        if (!card) return;
+
+        const isActive = index === currentIndex;
+        const isComplete = index < currentIndex;
+        const isPrevious = index === currentIndex - 1;
+        const firstCardAtEntry = index === 0 && currentIndex === 0;
+        const imageReveal = reducedMotion
+          ? 1
+          : firstCardAtEntry
+            ? 1
+            : phaseProgress(localProgress, 0, 0.18);
+        const titleReveal = reducedMotion
+          ? 1
+          : phaseProgress(localProgress, firstCardAtEntry ? 0 : 0.18, firstCardAtEntry ? 0.18 : 0.36);
+        const labelReveal = reducedMotion
+          ? 1
+          : phaseProgress(localProgress, firstCardAtEntry ? 0.18 : 0.36, firstCardAtEntry ? 0.36 : 0.52);
+        const descriptionReveal = reducedMotion
+          ? 1
+          : phaseProgress(localProgress, firstCardAtEntry ? 0.36 : 0.52, firstCardAtEntry ? 0.56 : 0.72);
+        const lineProgress = isComplete ? 1 : isActive ? localProgress : 0;
+
+        card.style.setProperty("--card-line-progress", lineProgress.toFixed(4));
+        card.style.setProperty("--card-stage-reveal", isActive ? imageReveal.toFixed(4) : isPrevious ? "1" : "0");
+        card.style.setProperty("--card-stage-opacity", isActive || isPrevious ? "1" : "0");
+        card.style.setProperty("--card-layer", isActive ? "2" : isPrevious ? "1" : "0");
+        card.style.setProperty("--card-reveal", isActive ? imageReveal.toFixed(4) : isComplete ? "1" : "0");
+        card.style.setProperty("--card-title-reveal", isActive ? titleReveal.toFixed(4) : isComplete ? "1" : "0");
+        card.style.setProperty("--card-label-reveal", isActive ? labelReveal.toFixed(4) : isComplete ? "1" : "0");
+        card.style.setProperty("--card-description-reveal", isActive ? descriptionReveal.toFixed(4) : isComplete ? "1" : "0");
+        card.style.setProperty("--card-travel", "0");
+      };
 
       if (isMobile) {
         const section = sectionRef.current;
@@ -43,22 +83,23 @@ export default function IntelligenceSection() {
         if (!section || !cardTrack) return;
 
         const distance = section.offsetHeight - viewportHeight;
-        const progress = Math.min(1, Math.max(0, -section.getBoundingClientRect().top / Math.max(distance, 1)));
+        const progress = clamp(-section.getBoundingClientRect().top / Math.max(distance, 1));
         const availableWidth = section.clientWidth - 32;
         const maxTranslate = Math.max(0, cardTrack.scrollWidth - availableWidth);
         cardTrack.style.transform = `translate3d(${-maxTranslate * progress}px, 0, 0)`;
 
-        const nextCard = Math.min(cards.length - 1, Math.floor(progress * cards.length));
+        const stagedProgress = progress * cards.length;
+        const nextCard = Math.min(cards.length - 1, Math.floor(stagedProgress));
+        const localProgress = nextCard === cards.length - 1 && progress === 1
+          ? 1
+          : clamp(stagedProgress - nextCard);
         if (nextCard !== activeRef.current) {
           activeRef.current = nextCard;
           setActiveCard(nextCard);
         }
 
         cardRefs.current.forEach((card, index) => {
-          card?.style.setProperty("--card-reveal", "1");
-          card?.style.setProperty("--card-travel", "0");
-          card?.style.setProperty("--card-stage-reveal", "1");
-          card?.style.setProperty("--card-line-progress", index <= nextCard ? "1" : "0");
+          setCardStage(card, index, nextCard, localProgress);
         });
         return;
       }
@@ -68,7 +109,6 @@ export default function IntelligenceSection() {
 
       if (cardsRef.current) cardsRef.current.style.transform = "";
 
-      const clamp = (value) => Math.min(1, Math.max(0, value));
       const scrollDistance = Math.max(1, section.offsetHeight - viewportHeight);
       const sectionProgress = clamp(-section.getBoundingClientRect().top / scrollDistance);
       const stagedProgress = sectionProgress * cards.length;
@@ -83,15 +123,7 @@ export default function IntelligenceSection() {
       }
 
       cardRefs.current.forEach((card, index) => {
-        if (!card) return;
-        const isActive = index === nextCard;
-        const isComplete = index < nextCard;
-        const lineProgress = isComplete ? 1 : isActive ? localProgress : 0;
-
-        card.style.setProperty("--card-line-progress", lineProgress.toFixed(4));
-        card.style.setProperty("--card-stage-reveal", isActive ? "1" : "0");
-        card.style.setProperty("--card-reveal", isActive ? "1" : "0");
-        card.style.setProperty("--card-travel", "0");
+        setCardStage(card, index, nextCard, localProgress);
       });
     };
 
@@ -177,15 +209,22 @@ export default function IntelligenceSection() {
                   <img src={card.image} alt="" />
                 </div>
                 <div className="intelligence-card__info">
-                  <h3>{card.title}</h3>
+                  <h3><span className="intelligence-card__title-text">{card.title}</span></h3>
                   <div className="intelligence-card__meta">
-                    <p>{card.label}</p>
-                    <p>{card.description}</p>
+                    <p><span className="intelligence-card__label-text">{card.label}</span></p>
+                    <p><span className="intelligence-card__description-text">{card.description}</span></p>
                   </div>
                 </div>
               </article>
             ))}
           </div>
+        </div>
+
+        <div className="intelligence-section__explore" aria-hidden="true">
+          <svg viewBox="0 0 18 24" role="presentation">
+            <path d="M9 1V21M2 14L9 21L16 14" />
+          </svg>
+          <span>Scroll to explore</span>
         </div>
       </div>
     </section>

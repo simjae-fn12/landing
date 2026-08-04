@@ -5,7 +5,7 @@
 - Site ID: fitosauna-info-blocks
 - 원본 URL: https://fitosauna.com/
 - 적용 대상: `/`의 `IntelligenceSection`
-- 현재 완료 단계: R0
+- 현재 완료 단계: R5 (대상 interaction 범위)
 - 조사일: 2026-07-30
 
 ## 데스크톱 구조
@@ -35,10 +35,20 @@
 | 7 cards | 3 cards |
 | sauna benefit copy | 금융 데이터 탐색 및 준법 카피 |
 
+## 2026-08-04 순차 텍스트 리빌 매핑
+
+- 기존 3단계 sticky/pin 구간과 가로 진행선의 scroll scrub은 유지한다.
+- 새 단계가 시작되면 이전 카드를 아래 레이어에 유지한 채 새 이미지가 `clip-path`로 먼저 교체된다.
+- 이미지 교체 뒤 제목, 영문 부제, 한글 설명을 각각 독립된 진행률로 나누어 아래에서 위로 순차 공개한다.
+- 단계별 local progress 매핑은 이미지 `0–18%`, 제목 `18–36%`, 영문 부제 `36–52%`, 한글 설명 `52–72%`다.
+- 첫 번째 카드는 섹션 진입 시 이미지가 이미 보이며, 제목부터 동일한 순서로 공개된다.
+- 역방향 스크롤에서는 동일한 local progress를 역산하므로 텍스트와 이미지가 반대 순서로 자연스럽게 복원된다.
+- `prefers-reduced-motion`에서는 텍스트 마스크와 이동을 제거해 즉시 읽을 수 있게 한다.
+
 ## 미확인
 
 - 동일 viewport에서 실제 프레임 비교
 - SplitText의 정확한 줄 전환 타이밍
 - 모바일 터치와 scroll-hijack 충돌 여부
 
-현재는 원본 HTML, CSS 상태 및 공개 `app.js`의 ScrollTrigger 설정을 조사한 R0 단계다.
+원본 HTML, CSS 상태 및 공개 `app.js`의 ScrollTrigger 설정을 기준으로 로컬 scroll progress에 연결한 R5 단계다. 동일 viewport의 프레임 비교는 아직 미완료다.
